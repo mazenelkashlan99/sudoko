@@ -2,7 +2,7 @@ package Setup;
 public class GameCreation {
     Integer [][] board;
 
-    Game(Integer[][] gameMatrix){
+    GameCreation(Integer[][] gameMatrix){
             board = gameMatrix;
     }
          
