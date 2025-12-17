@@ -1,21 +1,28 @@
 package Setup;
 
-public class ValidateRole extends ValidateGame {
+import java.util.Arrays;
 
+public class ValidateRole{
+
+    int [] elements;
     Role role;
+    int roleNumber;
 
-    ValidateRole(int[][] testMatrix, int threadNum, Role role) {
-        super(testMatrix, threadNum);
+    public ValidateRole(int[] elements, Role role, int roleNumber) {
+        this.elements = elements;
         this.role = role;
+        this.roleNumber = roleNumber;
     }
 
-    boolean checkVariation(int [] elements){
-        int n = elements.length;
+    boolean checkLength(){
+      return (this.elements.length==9);
+    }
+
+    boolean checkElementsVariation(){
+        int n = this.elements.length;
         for(int i = 0; i < n - 1; i++) {
-
             for(int j = i + 1; j < n; j++) {
-
-                if(elements[i] == elements[j]){
+                if(this.elements[i] == this.elements[j]){
                     return false; 
                 }
             }
@@ -23,24 +30,13 @@ public class ValidateRole extends ValidateGame {
         return true;
     }
 
-
-    
-    final void validateElements(){
-        switch (this.role) {
-            case BOX:
-                break;
-            case ROW:
-                break;
-            case COLUMN:
-                break;
-            default:
-                break;
+    public void validityOfRole(){
+        if(checkLength() && checkElementsVariation()){
+            System.out.println("Correct " + this.role.toString());
         }
-        int [] elements = new int[9];
-        if (checkVariation(elements)) {
-            
+        else{
+            System.out.println("Invalid " + this.role.toString() + " at index [" + this.roleNumber +"] : " + Arrays.toString(this.elements)); 
         }
-
     }
 
 }

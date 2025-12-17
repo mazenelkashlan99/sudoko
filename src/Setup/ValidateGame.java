@@ -12,4 +12,7 @@ public abstract class ValidateGame {
     final boolean isSizeAppropriate(){
         return (this.testMatrix[1].length==9 && this.testMatrix[0].length==9);
     }
+
+
+    abstract boolean isRoleValid(Role role,int roleNum);
 }
