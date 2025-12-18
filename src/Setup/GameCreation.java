@@ -1,9 +1,9 @@
 package Setup;
 public class GameCreation {
-    Integer [][] board;
+    int[][] board;
 
-    GameCreation(Integer[][] gameMatrix){
-            board = gameMatrix;
+    GameCreation(int[][] board){
+            this.board = board;
     }
          
 }

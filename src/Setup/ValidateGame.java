@@ -1,14 +1,12 @@
 package Setup;
 
-import java.util.ArrayList;
 
-public abstract class ValidateGame {
+public abstract class ValidateGame{
 
-    ArrayList <Elements> elements;
     int [][] testMatrix;
     int threadNum;
 
-    ValidateGame(int [][] testMatrix,int threadNum){
+    ValidateGame(int threadNum,int [][] testMatrix){
         this.testMatrix=testMatrix;
         this.threadNum=threadNum;
     }

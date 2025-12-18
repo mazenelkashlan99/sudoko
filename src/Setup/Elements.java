@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import javax.swing.event.InternalFrameAdapter;
-
 public class Elements{
 
     int [] elements;
@@ -46,17 +44,25 @@ public class Elements{
     //[1,1,1,1,1,1,1,1,1]
 
     public HashMap<Integer,ArrayList<Integer>> checkDuplicates(int [] elements){
+
         HashMap<Integer,ArrayList<Integer>> duplicateValuesAndIndex=new HashMap<Integer,ArrayList<Integer>>();
-         ArrayList<Integer> dupIndex=new ArrayList<Integer>();
+        ArrayList<Integer> dupIndex=new ArrayList<Integer>();
+
         for (int i=0;i<elements.length;i++){
+
             for (int j=1;j<elements.length;j++){
+
                 if (elements[i]==elements[j]){
-                    if (!dupIndex.contains(i+1))
-                        dupIndex.add(i+1);
+
+                        if (!dupIndex.contains(i+1))
+                            dupIndex.add(i+1);
                 }
             }
+
             duplicateValuesAndIndex.put(elements[i],dupIndex);
+
         }
+
         return duplicateValuesAndIndex;
     }
 
