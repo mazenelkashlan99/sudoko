@@ -1,14 +1,18 @@
 package Setup;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
-public class ValidateRole{
+import javax.swing.event.InternalFrameAdapter;
+
+public class Elements{
 
     int [] elements;
     Role role;
     int roleNumber;
 
-    public ValidateRole(int[] elements, Role role, int roleNumber) {
+    public Elements(int[] elements, Role role, int roleNumber) {
         this.elements = elements;
         this.role = role;
         this.roleNumber = roleNumber;
@@ -37,6 +41,23 @@ public class ValidateRole{
         else{
             System.out.println("Invalid " + this.role.toString() + " at index [" + this.roleNumber +"] : " + Arrays.toString(this.elements)); 
         }
+    }
+
+    //[1,1,1,1,1,1,1,1,1]
+
+    public HashMap<Integer,ArrayList<Integer>> checkDuplicates(int [] elements){
+        HashMap<Integer,ArrayList<Integer>> duplicateValuesAndIndex=new HashMap<Integer,ArrayList<Integer>>();
+         ArrayList<Integer> dupIndex=new ArrayList<Integer>();
+        for (int i=0;i<elements.length;i++){
+            for (int j=1;j<elements.length;j++){
+                if (elements[i]==elements[j]){
+                    if (!dupIndex.contains(i+1))
+                        dupIndex.add(i+1);
+                }
+            }
+            duplicateValuesAndIndex.put(elements[i],dupIndex);
+        }
+        return duplicateValuesAndIndex;
     }
 
 }

@@ -1,6 +1,7 @@
 
+import Setup.Elements;
 import Setup.Role;
-import Setup.ValidateRole;
+import Setup.Elements;
 
 void main() {
     
@@ -13,6 +14,6 @@ void main() {
     int [] row={1,1,1,1,1,1,1,1,1};
     int rowNum=2;
     Role role = Role.BOX;
-    ValidateRole vr=new ValidateRole(row, role, rowNum);
-    vr.validityOfRole();
+    Elements e=new Elements(row, role, rowNum);
+    System.out.println(e.checkDuplicates(row));
 }
