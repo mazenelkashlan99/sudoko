@@ -41,7 +41,6 @@ public class Elements{
         }
     }
 
-    //[1,1,1,1,1,1,1,1,1]
 
     public HashMap<Integer,ArrayList<Integer>> checkDuplicates(int [] elements){
 

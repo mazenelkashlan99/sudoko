@@ -1,10 +1,13 @@
 
+import java.lang.classfile.constantpool.IntegerEntry;
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import Csv.CsvImport;
 import Setup.Elements;
 import Setup.Role;
+import Setup.ValidateGame;
 
 void main() {
     
@@ -23,5 +26,15 @@ void main() {
     //s.validityOfRole();
 
     CsvImport csvFile=new CsvImport("valid.csv");
-    System.out.println(Arrays.deepToString(csvFile.convertToMatrix()));
+    int [][] game=csvFile.convertToMatrix();
+
+    ValidateGame vg=new ValidateGame(0,game);
+    ArrayList <int[]> rows=vg.getRows();
+    ArrayList <int[]> columns=vg.getColumns();
+    for (int i=0;i<rows.size();i++){
+        System.out.println("Row " + (i+1) + ":" + Arrays.toString(rows.get(i)));
+    }
+    for (int i=0;i<columns.size();i++){
+        System.out.println("Column " + (i+1) + ":" + Arrays.toString(columns.get(i)));
+    }
 }

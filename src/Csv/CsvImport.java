@@ -39,14 +39,6 @@ public class CsvImport {
         e.printStackTrace();
     }
      
-    // Display the 2D array
-    System.out.println("Sudoku Matrix:");
-    for (int[] rowData : data) {
-        for (int value : rowData) {
-            System.out.print(value + " ");
-        }
-        System.out.println();
-    }
     return data;
   }
 }
