@@ -11,7 +11,7 @@ public class SequentialThread extends ThreadAbstract{
     int [][] board;
 
     public SequentialThread(int [][] board){
-        this.board=board;
+        super(board);
     }
 
     public void divideRoles(){

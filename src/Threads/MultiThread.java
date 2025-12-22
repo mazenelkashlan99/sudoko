@@ -1,10 +1,18 @@
 package Threads;
 
 public class MultiThread extends ThreadAbstract{
-    
+
+    int[][] board;
     int threadNum;
 
-    public void divideRoles(){
+    MultiThread(int[][] board, int threadNum){
+        super(board);
+        this.threadNum=threadNum;
+    }
 
+    public void divideRoles(){
+        if(this.threadNum==3){
+            
+        }
     }
 }

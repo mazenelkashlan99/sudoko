@@ -2,11 +2,11 @@ package Threads;
 
 public abstract class ThreadAbstract {
 
-    int threadNum;
+    int[][] board;;
 
-    public ThreadAbstract(int threadNum){
-        this.threadNum=threadNum;
+    public ThreadAbstract(int [][] board){
+        this.board=board;
     }
-    
+
     public abstract void divideRoles();
 }
