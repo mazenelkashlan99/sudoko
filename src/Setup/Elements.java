@@ -37,11 +37,12 @@ public class Elements{
             System.out.println("Correct " + this.role.toString());
         }
         else{
-            System.out.println("Invalid " + this.role.toString() + " at index [" + this.roleNumber +"] : " + Arrays.toString(this.elements)); 
+          //  System.out.println("Invalid " + this.role.toString() + " at index [" + this.roleNumber +"] : " + Arrays.toString(this.elements)); 
+           HashMap<Integer,ArrayList<Integer>> incorrect=checkDuplicates(elements);
+           System.out.println(this.role.toString()+ " " + this.roleNumber + " , #"+ incorrect.keySet().toArray()[0]+":" + incorrect.values().toArray()[0]);
         }
     }
 
-    //[1,1,1,1,1,1,1,1,1]
 
     public HashMap<Integer,ArrayList<Integer>> checkDuplicates(int [] elements){
 
