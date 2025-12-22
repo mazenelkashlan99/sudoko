@@ -3,8 +3,11 @@ package Setup;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class ValidateGame{
+import javax.swing.GroupLayout.SequentialGroup;
 
+import Threads.SequentialThread;
+
+public class ValidateGame {
     int [][] testMatrix;
     int threadNum;
 
@@ -17,33 +20,13 @@ public class ValidateGame{
         return (this.testMatrix[1].length==9 && this.testMatrix[0].length==9);
     }
 
-    public ArrayList<int[]> getRows(){
-        ArrayList <int[]> rows=new ArrayList<int []>();
-        for (int r=0;r<9;r++){
-            rows.add(testMatrix[r]);
-        }
-        return rows;
-    }
 
-    public ArrayList<int[]> getColumns(){
-        ArrayList <int[]> columns=new ArrayList<int []>();
-        for (int c=0;c<9;c++){
-            int[] column=new int[9];
-            for (int r=0;r<9;r++){
-                column[r]=testMatrix[r][c];
-            }
-            columns.add(column);
-        }
-        return columns;
-    }
 
-    void getBoxes(){
-
-    }
-
-    void breakdownIntoRoles(){
+    public void threadNumMatching(){
         switch (threadNum) {
             case 0:
+               SequentialThread singleThread=new SequentialThread(testMatrix);
+               singleThread.divideRoles();
                 break;
             case 3:
                 break;
