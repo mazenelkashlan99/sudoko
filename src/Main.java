@@ -20,23 +20,12 @@ void main() {
     //Elements s=new Elements(new int[]{1,2,3,4,5,6,7,8,9}, Role.BOX, 3);
     //s.validityOfRole();
 
-    CsvImport csvFile=new CsvImport("invalid.csv");
-    int [][] game=csvFile.convertToMatrix();
+    CsvImport csvFile=new CsvImport("valid.csv");
 
-    ValidateGame vg=new ValidateGame(0,game);
-    // BoardBreakdown b=new BoardBreakdown(game);
-    // ArrayList <int[]> rows=b.getRows();
-    // ArrayList <int[]> columns=b.getColumns();
-    // ArrayList <int[]> box=b.getBoxes();
-    // for (int i=0;i<rows.size();i++){
-    //     System.out.println("Row " + (i+1) + ":" + Arrays.toString(rows.get(i)));
-    // }
-    // for (int i=0;i<columns.size();i++){
-    //     System.out.println("Column " + (i+1) + ":" + Arrays.toString(columns.get(i)));
-    // }
-    // for (int i=0;i<columns.size();i++){
-    //     System.out.println("Box " + (i+1) + ":" + Arrays.toString(box.get(i)));
-    // }
 
+    ValidateGame vg=new ValidateGame(0,csvFile.convertToMatrix());
     vg.threadNumMatching();
+
+    
+
 }

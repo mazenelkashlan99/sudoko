@@ -25,7 +25,7 @@ public class ValidateGame {
     public void threadNumMatching(){
         switch (threadNum) {
             case 0:
-               SequentialThread singleThread=new SequentialThread(testMatrix);
+               SequentialThread singleThread=new SequentialThread(this.testMatrix);
                singleThread.divideRoles();
                 break;
             case 3:
