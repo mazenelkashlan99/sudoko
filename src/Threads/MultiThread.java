@@ -7,6 +7,7 @@ public class MultiThread extends ThreadAbstract{
 
     MultiThread(int[][] board, int threadNum){
         super(board);
+        this.board=board;
         this.threadNum=threadNum;
     }
 

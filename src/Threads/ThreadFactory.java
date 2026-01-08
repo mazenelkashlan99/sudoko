@@ -1,41 +1,19 @@
 package Threads;
 
 public abstract class ThreadFactory{
-    int threadNum;
+    private ThreadAbstract thread;
     
-    ThreadFactory(int threadNum){
-       this.threadNum=threadNum;
+    public ThreadFactory(int threadNum,int [][] board){
+       if (threadNum==0){
+        thread=new SequentialThread(board); 
+       }
+       else if (threadNum==3){
+        thread=new MultiThread(board, threadNum);
+       }
     }
 
-    
-
-    // switch (threadNum) {
-    //         case 0:
-    //             int rowIndex=1;
-    //             int columnIndex=1;
-    //             int boxIndex=1;
-    //             for (var row : rows){
-    //                Elements rowElements = new Elements(row,Role.ROW,rowIndex);
-    //                rowElements.validityOfRole();
-    //                rowIndex++;
-    //             }
-    //             for (var col : columns){
-    //                Elements columnElements = new Elements(col,Role.COLUMN,columnIndex);
-    //                columnElements.validityOfRole();
-    //                columnIndex++;
-    //             }
-    //             for (var box : boxes){
-    //                 Elements boxElements = new Elements(box,Role.BOX,boxIndex);
-    //                 boxElements.validityOfRole();
-    //                 boxIndex++;
-    //             }
-    //             break;
-    //         case 3:
-    //             break;
-    //         case 27:
-    //             break;
-    //         default:
-    //             break;
-    //     }
+    public ThreadAbstract getThread() {
+        return thread;
+    }
 
 }
