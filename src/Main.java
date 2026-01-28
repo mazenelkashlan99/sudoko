@@ -1,16 +1,15 @@
 
-import Csv.CsvImport;
+import Setup.GameCreation;
 import Setup.ValidateGame;
 
 void main() {
     
+    GameCreation gameCreation=new GameCreation("invalid.csv");
+    var game=gameCreation.getBoard();
 
-    CsvImport csvFile=new CsvImport("invalid.csv");
 
-
-    ValidateGame vg=new ValidateGame(0,csvFile.convertToMatrix());
+    ValidateGame vg=new ValidateGame(0,game);
     vg.threadNumMatching();
 
-    
 
 }
