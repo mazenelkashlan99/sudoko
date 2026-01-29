@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 import javax.swing.GroupLayout.SequentialGroup;
 
+import Threads.MultiThread;
 import Threads.SequentialThread;
 
 public class ValidateGame {
@@ -29,6 +30,8 @@ public class ValidateGame {
                singleThread.divideRoles();
                 break;
             case 3:
+                MultiThread mt=new MultiThread(this.testMatrix,3);
+                mt.divideRoles();
                 break;
             case 27:
                 break;

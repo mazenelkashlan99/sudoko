@@ -1,6 +1,7 @@
 package Threads;
 
 public abstract class ThreadFactory{
+    
     private ThreadAbstract thread;
     
     public ThreadFactory(int threadNum,int [][] board){
@@ -12,8 +13,5 @@ public abstract class ThreadFactory{
        }
     }
 
-    public ThreadAbstract getThread() {
-        return thread;
-    }
 
 }
