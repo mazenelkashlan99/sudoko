@@ -24,13 +24,9 @@ public class SequentialThread extends ThreadAbstract{
         ManageRoles boardRows=new ManageRoles(rows, Role.ROW);
         ManageRoles boardColumns=new ManageRoles(columns, Role.COLUMN);
         ManageRoles boardBoxes=new ManageRoles(boxes, Role.BOX);
-        ArrayList <ManageRoles> allBoardRoles = new ArrayList<ManageRoles>();
-        allBoardRoles.add(boardRows);
-        allBoardRoles.add(boardColumns);
-        allBoardRoles.add(boardBoxes);
-        for (var roleArr : allBoardRoles){
-            roleArr.CheckRoleValidity();
-        }
+        boardRows.CheckRoleValidity();
+        boardColumns.CheckRoleValidity();
+        boardBoxes.CheckRoleValidity();
     }
 
 

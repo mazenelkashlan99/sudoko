@@ -1,12 +1,8 @@
 package Setup;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 
-import javax.swing.GroupLayout.SequentialGroup;
-
-import Threads.MultiThread;
-import Threads.SequentialThread;
+import Threads.*;
+import Threads.ThreadCreator;
 
 public class ValidateGame {
     int [][] testMatrix;
@@ -24,20 +20,18 @@ public class ValidateGame {
 
 
     public void threadNumMatching(){
-        switch (threadNum) {
-            case 0:
-               SequentialThread singleThread=new SequentialThread(this.testMatrix);
-               singleThread.divideRoles();
-                break;
-            case 3:
-                MultiThread mt=new MultiThread(this.testMatrix,3);
-                mt.divideRoles();
-                break;
-            case 27:
-                break;
-            default:
-                break;
-        }
-    }
 
+        if (threadNum==0){
+            ThreadCreator SequentialThreadCreator= new ConcreteSequentialThread();
+            ThreadAbstract SequentialThread=SequentialThreadCreator.factorymethod(testMatrix, threadNum);
+            SequentialThread.divideRoles();
+        }
+
+        else if(threadNum==3 || threadNum==9 || threadNum==27){
+            ThreadCreator MultiThreadCreator= new ConcreteMultiThread();
+            ThreadAbstract MultiThread=MultiThreadCreator.factorymethod(testMatrix, threadNum);
+            MultiThread.divideRoles();
+        }
+    
+    }
 }

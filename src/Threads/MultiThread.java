@@ -1,8 +1,9 @@
 package Threads;
 
 import java.util.ArrayList;
-
+import java.util.List;
 import Setup.BoardBreakdown;
+import Setup.Elements;
 import Setup.ManageRoles;
 import Setup.Role;
 
@@ -10,18 +11,21 @@ public class MultiThread extends ThreadAbstract{
 
     int[][] board;
     int threadNum;
+    BoardBreakdown allRoles;
+    ThreadTimeCheck timeCheck;
 
     public MultiThread(int[][] board, int threadNum){
         super(board);
         this.board=board;
         this.threadNum=threadNum;
+        allRoles=new BoardBreakdown(board);
+        timeCheck=new ThreadTimeCheck(threadNum);
     }
 
     public void divideRoles() {
+    timeCheck.start();
     if (this.threadNum == 3) {
-        BoardBreakdown allRoles = new BoardBreakdown(this.board);
         
-        // Create threads
         Thread rowThread = new Thread(() -> {
             ManageRoles boardRows = new ManageRoles(allRoles.getRows(), Role.ROW);
             System.out.println("Row thread starting...");
@@ -43,12 +47,12 @@ public class MultiThread extends ThreadAbstract{
             System.out.println("Box thread completed");
         });
         
-        // START the threads
+        
         rowThread.start();
         columnThread.start();
         boxThread.start();
         
-        // WAIT for them to finish (if you want main to wait)
+        
         try {
             rowThread.join();
             columnThread.join();
@@ -57,8 +61,62 @@ public class MultiThread extends ThreadAbstract{
         } catch (InterruptedException e) {
             System.out.println("Thread interrupted!");
         }
-    }
 
     }
+    else if (threadNum == 27) {
+        List<Thread> allThreads = new ArrayList<>();
+        
+        
+        for (int i = 0; i < 9; i++) {
+            final int index = i;
+            Thread rowThread = new Thread(() -> {
+                System.out.println("Row " + (index + 1) + " thread starting...");
+                Elements rowElement = new Elements(allRoles.getRows().get(index), Role.ROW, index + 1);
+                rowElement.validityOfRole();
+                System.out.println("Row " + (index + 1) + " thread completed");
+            });
+            allThreads.add(rowThread);
+            rowThread.start(); 
+        }
+        
+        
+        for (int i = 0; i < 9; i++) {
+            final int index = i;
+            Thread colThread = new Thread(() -> {
+                System.out.println("Column " + (index + 1) + " thread starting...");
+                Elements colElement = new Elements(allRoles.getColumns().get(index), Role.COLUMN, index + 1);
+                colElement.validityOfRole();
+                System.out.println("Column " + (index + 1) + " thread completed");
+            });
+            allThreads.add(colThread);
+            colThread.start(); 
+        }
+        
+        
+        for (int i = 0; i < 9; i++) {
+            final int index = i;
+            Thread boxThread = new Thread(() -> {
+                System.out.println("Box " + (index + 1) + " thread starting...");
+                Elements boxElement = new Elements(allRoles.getBoxes().get(index), Role.BOX, index + 1);
+                boxElement.validityOfRole();
+                System.out.println("Box " + (index + 1) + " thread completed");
+            });
+            allThreads.add(boxThread);
+            boxThread.start(); 
+        }
+        
+        
+        for (Thread thread : allThreads) {
+            try {
+                thread.join(); 
+            } catch (InterruptedException e) {
+                System.out.println("Thread interrupted!");
+                Thread.currentThread().interrupt();
+            }
+        }
 
+        }
+    timeCheck.end();
+    timeCheck.executeSummary();
+    }
 }
