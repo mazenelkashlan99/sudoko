@@ -9,14 +9,17 @@ import Setup.Role;
 public class SequentialThread extends ThreadAbstract{
     
     int[][] board;  
+    ThreadTimeCheck timeCheck;
     
     public SequentialThread(int[][] board) {
         super(board);
         this.board = board; 
+        timeCheck=new ThreadTimeCheck(0);
     }
     
 
     public void divideRoles(){
+        timeCheck.start();
         BoardBreakdown allRoles = new BoardBreakdown(this.board);
         ArrayList <int[]> rows=allRoles.getRows();
         ArrayList <int[]> columns=allRoles.getColumns();
@@ -27,6 +30,8 @@ public class SequentialThread extends ThreadAbstract{
         boardRows.CheckRoleValidity();
         boardColumns.CheckRoleValidity();
         boardBoxes.CheckRoleValidity();
+        timeCheck.end();
+        timeCheck.executeSummary();
     }
 
 
