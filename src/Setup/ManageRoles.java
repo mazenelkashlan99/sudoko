@@ -2,13 +2,13 @@ package Setup;
 
 import java.util.ArrayList;
 
-public class AssignRoles {
+public class ManageRoles {
 
     int start=1;
     ArrayList<int []> roleElements;
     Role role;
 
-    public AssignRoles(ArrayList<int[]> roleElements,Role role){
+    public ManageRoles(ArrayList<int[]> roleElements,Role role){
         this.role=role;
         this.roleElements=roleElements;
     }

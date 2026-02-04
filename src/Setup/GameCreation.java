@@ -1,9 +1,15 @@
 package Setup;
+import Csv.*;
 public class GameCreation {
-    int[][] board;
+    String filename;
 
-    GameCreation(int[][] board){
-            this.board = board;
+    public GameCreation(String filename){
+            this.filename=filename;
+    }
+
+    public int [][] getBoard(){
+        CsvImport x=SingletonCSV.getInstance(filename);
+        return x.convertToMatrix();
     }
          
 }

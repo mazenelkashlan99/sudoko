@@ -11,6 +11,10 @@ public class CsvImport {
         this.csvFile=csvFile;
     }
 
+    public CsvImport(){
+        
+    }
+
     public int [][] convertToMatrix(){
     String filePath = this.csvFile;
     int rows = 9;
