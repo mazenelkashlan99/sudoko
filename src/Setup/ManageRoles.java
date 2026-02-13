@@ -15,8 +15,8 @@ public class ManageRoles {
 
     public void CheckRoleValidity(){
        for (var roleArr : roleElements){
-                   Elements TElements = new Elements(roleArr,role,start);
-                   TElements.validityOfRole();
+                   ElementsWithRole TElementsWithRole = new ElementsWithRole(roleArr,role,start);
+                   TElementsWithRole.validityOfRole();
                    start++;
         }
     }

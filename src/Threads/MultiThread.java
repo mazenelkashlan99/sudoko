@@ -3,7 +3,7 @@ package Threads;
 import java.util.ArrayList;
 import java.util.List;
 import Setup.BoardBreakdown;
-import Setup.Elements;
+import Setup.ElementsWithRole;
 import Setup.ManageRoles;
 import Setup.Role;
 
@@ -71,7 +71,7 @@ public class MultiThread extends ThreadAbstract{
             final int index = i;
             Thread rowThread = new Thread(() -> {
                 System.out.println("Row " + (index + 1) + " thread starting...");
-                Elements rowElement = new Elements(allRoles.getRows().get(index), Role.ROW, index + 1);
+                ElementsWithRole rowElement = new ElementsWithRole(allRoles.getRows().get(index), Role.ROW, index + 1);
                 rowElement.validityOfRole();
                 System.out.println("Row " + (index + 1) + " thread completed");
             });
@@ -84,7 +84,7 @@ public class MultiThread extends ThreadAbstract{
             final int index = i;
             Thread colThread = new Thread(() -> {
                 System.out.println("Column " + (index + 1) + " thread starting...");
-                Elements colElement = new Elements(allRoles.getColumns().get(index), Role.COLUMN, index + 1);
+                ElementsWithRole colElement = new ElementsWithRole(allRoles.getColumns().get(index), Role.COLUMN, index + 1);
                 colElement.validityOfRole();
                 System.out.println("Column " + (index + 1) + " thread completed");
             });
@@ -97,7 +97,7 @@ public class MultiThread extends ThreadAbstract{
             final int index = i;
             Thread boxThread = new Thread(() -> {
                 System.out.println("Box " + (index + 1) + " thread starting...");
-                Elements boxElement = new Elements(allRoles.getBoxes().get(index), Role.BOX, index + 1);
+                ElementsWithRole boxElement = new ElementsWithRole(allRoles.getBoxes().get(index), Role.BOX, index + 1);
                 boxElement.validityOfRole();
                 System.out.println("Box " + (index + 1) + " thread completed");
             });

@@ -1,16 +1,16 @@
 package Setup;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
-public class Elements{
+public class ElementsWithRole {
 
+    BoardBreakdown boardBreakdown;
     int [] elements;
     Role role;
     int roleNumber;
 
-    public Elements(int[] elements, Role role, int roleNumber) {
+    public ElementsWithRole(int[] elements, Role role, int roleNumber) {
         this.elements = elements;
         this.role = role;
         this.roleNumber = roleNumber;
@@ -20,12 +20,26 @@ public class Elements{
       return (this.elements.length==9);
     }
 
+
+
     boolean checkElementsVariation(){
         int n = this.elements.length;
         for(int i = 0; i < n - 1; i++) {
             for(int j = i + 1; j < n; j++) {
                 if(this.elements[i] == this.elements[j]){
                     return false; 
+                }
+            }
+        }
+        return true;
+    }
+
+    public boolean checkElementsVariation(int[] arr){
+        int n = arr.length;
+        for(int i = 0; i < n - 1; i++) {
+            for(int j = i + 1; j < n; j++) {
+                if(arr[i] == arr[j]){
+                    return false;
                 }
             }
         }
@@ -66,5 +80,6 @@ public class Elements{
 
         return duplicateValuesAndIndex;
     }
+
 
 }

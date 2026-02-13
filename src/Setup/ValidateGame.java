@@ -14,7 +14,9 @@ public class ValidateGame {
     }
 
     final boolean isSizeAppropriate(){
+
         return (this.testMatrix[1].length==9 && this.testMatrix[0].length==9);
+
     }
 
 
