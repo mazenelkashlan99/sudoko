@@ -1,4 +1,4 @@
-package GUIBackend;
+package Csv;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -38,6 +38,27 @@ public class RandomPairs {
 
             if (used.add(key)) {
                 result.add(new int[]{x, y});
+            }
+        }
+
+        return result;
+    }
+
+
+    public List<Integer> generateUniqueNumbers(int n) {
+        if (n < 0 || n > 81) {
+            throw new IllegalArgumentException("n must be between 0 and 81");
+        }
+
+        Set<Integer> used = new HashSet<>();
+        List<Integer> result = new ArrayList<>(n);
+
+        while (result.size() < n) {
+            int num = random.nextInt(81); // 0-80
+
+            // If it's a new unique number, add it
+            if (used.add(num)) {
+                result.add(num);
             }
         }
 
