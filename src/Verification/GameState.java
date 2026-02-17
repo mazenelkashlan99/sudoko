@@ -39,7 +39,7 @@ public class GameState {
             if (!this.elements.checkElementsVariation(i)) {
                 state="Invalid";
                 break;
-            } else if (!checkZeros(i)) {
+            } else if (checkZeros(i)) {
                 state="Incomplete";
                 break;
             } else {
