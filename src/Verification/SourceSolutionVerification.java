@@ -20,7 +20,7 @@ public class SourceSolutionVerification {
     }
 
     public static void main(String[] args){
-        GameCreation gameCreation=new GameCreation("invalid.csv");
+        GameCreation gameCreation=new GameCreation("valid.csv");
         var game=gameCreation.getBoard();
         GameState ssv=new GameState(game);
         System.out.println(ssv.getState());

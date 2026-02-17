@@ -16,6 +16,8 @@ public class ElementsWithRole {
         this.roleNumber = roleNumber;
     }
 
+    public ElementsWithRole(){}
+
     boolean checkLength(){
       return (this.elements.length==9);
     }
