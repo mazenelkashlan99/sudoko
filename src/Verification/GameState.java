@@ -37,18 +37,14 @@ public class GameState {
 
         for (var i : allRoles){
             if (!this.elements.checkElementsVariation(i)) {
-                state="Invalid";
-                break;
+                return "Invalid";
             } else if (checkZeros(i)) {
-                state="Incomplete";
-                break;
-            } else {
-                state="Complete";
-                break;
+                return "Incomplete";
             }
         }
 
-        return state;
+        return "Complete";
     }
 
 }
+
