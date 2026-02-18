@@ -33,7 +33,6 @@ public class GameState {
     }
 
     public String getState(){
-        String state=null;
 
         for (var i : allRoles){
             if (!this.elements.checkElementsVariation(i)) {
