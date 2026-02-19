@@ -7,7 +7,7 @@ public class MainFrame extends JFrame {
     public MainFrame() {
         setTitle("Sudoku Game");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Board board = new Board();
+        GUI.Board board = new GUI.Board();
         add(board);
         pack();
         setLocationRelativeTo(null);

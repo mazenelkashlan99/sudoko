@@ -4,14 +4,14 @@ import java.util.*;
 
 public class CSVGenerator {
 
-    private RandomPairs randomPairs;
+    private Csv.RandomPairs randomPairs;
     private int[] sudokuNumbers;
     private int[][] sudokuNumbers2d;
     private final int max=9;
     private final int min=1;
 
-    public CSVGenerator(int cellsRemovedCount){
-        randomPairs=new RandomPairs();
+    public CSVGenerator(){
+        randomPairs=new Csv.RandomPairs();
         sudokuNumbers=new int[81];
         sudokuNumbers2d=new int[9][9];
     }
@@ -25,7 +25,7 @@ public class CSVGenerator {
         return sudokuNumbers;
     }
 
-    public int[][] convertOneDimensionArray(){
+    public int[][] convertToTwoDimension(){
         int z=0;
         for (int i=0;i<9;i++){
             for (int j=0;j<9;j++){

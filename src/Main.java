@@ -1,10 +1,6 @@
 
 import Setup.GameCreation;
 import Setup.ValidateGame;
-
-import javax.swing.*;
-import java.awt.*;
-
 void main() {
     
     GameCreation gameCreation=new GameCreation("invalid.csv");
