@@ -10,18 +10,13 @@ public class FileCSVConverter {
     private static int fileCount=0;
     private final Difficulty diffLevel;
     private CSVGenerator csv;
-    private int[] game1d;
-    private int[][] game2d;
     private int[][] game2dEdited;
 
 
     public FileCSVConverter(Difficulty diffLevel){
+        game2dEdited=new CSVGenerator().generateRandomValidBoard();
         csv=new CSVGenerator();
         this.diffLevel=diffLevel;
-        game1d=csv.generateNumbers();
-        System.out.println(Arrays.toString(game1d));
-        game2d= csv.convertToTwoDimension();
-        System.out.println(Arrays.deepToString(game2d));
     }
 
     public static int[] flatten(int[][] data) {
