@@ -31,17 +31,21 @@ public class FileCSVConverter {
 
     }
 
+    public int[][] getgame2dedited(){
+        return game2dEdited;
+    }
+
     public int[][] generateGameArray(){
 
         switch (diffLevel){
             case EASY:
-                game2dEdited= csv.replaceRandomPairs(10);
+                game2dEdited= csv.replaceRandomPairs(10,game2dEdited);
                 break;
             case MEDIUM:
-                game2dEdited= csv.replaceRandomPairs(20);
+                game2dEdited= csv.replaceRandomPairs(20,game2dEdited);
                 break;
             case HARD:
-                game2dEdited= csv.replaceRandomPairs(25);
+                game2dEdited= csv.replaceRandomPairs(25,game2dEdited);
                 break;
 
         }

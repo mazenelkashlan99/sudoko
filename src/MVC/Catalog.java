@@ -1,4 +1,4 @@
-package GUIBackend;
+package MVC;
 
 public class Catalog
 {

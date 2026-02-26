@@ -1,4 +1,4 @@
-package Verification;
+package MVC.Verification;
 
 import Setup.BoardBreakdown;
 import Setup.ElementsWithRole;

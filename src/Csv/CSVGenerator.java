@@ -88,7 +88,7 @@ public class CSVGenerator {
         return false;  
     }
 
-    public int[][] replaceRandomPairs(int cellsWanted) {
+    public int[][] replaceRandomPairs(int cellsWanted,int [][] board) {
         int pairsNeeded = (cellsWanted + 1) / 2;
 
         List<int[]> pairs = randomPairs.generateDistinctPairs(pairsNeeded);
@@ -114,10 +114,10 @@ public class CSVGenerator {
         }
 
         for (int cellIndex : cellsList) {
-            sudokuNumbers2d[cellIndex/9][cellIndex%9] = 0;
+            board[cellIndex/9][cellIndex%9] = 0;
         }
 
         System.out.println("Requested: " + cellsWanted + ", Removed: " + cellsList.size());
-        return sudokuNumbers2d;
+        return board;
     }
 }

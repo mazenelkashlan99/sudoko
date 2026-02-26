@@ -1,4 +1,4 @@
-package Verification;
+package MVC.Verification;
 
 public class SourceSolutionVerification {
     private int[][] game;

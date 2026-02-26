@@ -5,10 +5,12 @@ import java.util.Arrays;
 
 public class TestCSVGenerator {
     public static void main() throws IOException{
-        CSVGenerator csv=new CSVGenerator();
-        System.out.println(Arrays.deepToString(csv.generateValidBoard()));
-        // FileCSVConverter csv=new FileCSVConverter(Difficulty.EASY);
-        // System.out.println(Arrays.deepToString(csv.generateGameArray()));
-        // csv.givenDataArray_whenConvertToCSV_thenOutputCreated();
+    
+        FileCSVConverter csv=new FileCSVConverter(Difficulty.EASY);
+        int [][] validBoard=(csv.getgame2dedited());
+        System.out.println(Arrays.deepToString(validBoard));
+        System.out.println(Arrays.deepToString(csv.generateGameArray()));
+        csv.givenDataArray_whenConvertToCSV_thenOutputCreated();
+        
     }
 }
