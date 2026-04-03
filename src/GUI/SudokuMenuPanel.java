@@ -1,4 +1,4 @@
-package GUI;
+package Gui;
 
 import javax.swing.*;
 import javax.swing.Timer;

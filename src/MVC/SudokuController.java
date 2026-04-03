@@ -11,15 +11,16 @@ public class SudokuController implements Viewable {
     private FileCSVConverter fileLoader;
     private Difficulty difficulty;
     
-    public SudokuController(Controllable view) {
-        this.difficulty=difficulty;
+    public SudokuController(Controllable view, Difficulty difficulty) {
+        this.difficulty = difficulty;
         this.view = view;
-        this.fileLoader = new FileCSVConverter(difficulty);
+        this.fileLoader = new FileCSVConverter(this.difficulty);
     }
     
     // Implement all Viewable methods (empty for now)
     public Catalog getCatalog() {
         // Check folders, return Catalog
+        
     }
     
     public void logUserAction(String userAction) {

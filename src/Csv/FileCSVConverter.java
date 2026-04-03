@@ -1,9 +1,12 @@
 package Csv;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 public class FileCSVConverter {
@@ -22,14 +25,13 @@ public class FileCSVConverter {
     public static int[] flatten(int[][] data) {
 
         List<Integer> toReturn = new ArrayList<Integer>();
-        for (int[] sublist : Arrays.asList(data)) {
+        for (int[] sublist : data) {  // Removed Arrays.asList()
             for (int elem : sublist) {
                 toReturn.add(elem);
             }
         }
         return toReturn.stream().mapToInt(Integer::intValue).toArray();
-
-    }
+}
 
     public int[][] getgame2dedited(){
         return game2dEdited;
@@ -52,14 +54,33 @@ public class FileCSVConverter {
         return game2dEdited;
     }
 
-    public String determineFilePath(){
+    public String csvStringFileNameGenerator() {
 
-        return switch (diffLevel) {
-            case EASY ->"C:\\Users\\Mazen El-Kashlan\\Documents\\GitHub\\sudoko\\easy\\game_001.csv";
-            case MEDIUM -> "C:\\Users\\Mazen El-Kashlan\\Documents\\GitHub\\sudoko\\medium";
-            case HARD -> "C:\\Users\\Mazen El-Kashlan\\Documents\\GitHub\\sudoko\\hard";
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        String timestamp = sdf.format(date); 
+        String diff = diffLevel.toString().toLowerCase();
+        return String.format("%s_%s.csv", diff, timestamp);
+        
+    }
+
+    public String determineFilePath() {
+        String filename = csvStringFileNameGenerator();
+        String basePath = "C:\\Users\\Mazen El-Kashlan\\Documents\\GitHub\\sudoko\\";
+        
+        String folderPath = switch (diffLevel) {
+            case EASY -> basePath + "easy\\";
+            case MEDIUM -> basePath + "medium\\";
+            case HARD -> basePath + "hard\\";
         };
-
+        
+        // Create directory if it doesn't exist
+        File directory = new File(folderPath);
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+        
+        return folderPath + filename;
     }
 
     public void givenDataArray_whenConvertToCSV_thenOutputCreated() throws IOException {
