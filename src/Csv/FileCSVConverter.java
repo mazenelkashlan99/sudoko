@@ -101,4 +101,14 @@ public class FileCSVConverter {
 
     }
 
+    public void listFilesForFolder(final String fileFolder) {
+        File folder=new File(fileFolder);
+        for (final File fileEntry : folder.listFiles()) {
+            if (fileEntry.isDirectory()) {
+                listFilesForFolder(fileEntry.getAbsolutePath());
+            } else {
+                System.out.println(fileEntry.getName());
+            }
+        }
+    }
 }

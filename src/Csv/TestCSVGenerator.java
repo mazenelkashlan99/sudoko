@@ -17,5 +17,6 @@ public class TestCSVGenerator {
         System.out.println(Arrays.deepToString(gameBoard));
         
         csv.givenDataArray_whenConvertToCSV_thenOutputCreated();
+        csv.listFilesForFolder("C:\\Users\\Mazen El-Kashlan\\Documents\\GitHub\\sudoko\\medium\\");
     }
 }
