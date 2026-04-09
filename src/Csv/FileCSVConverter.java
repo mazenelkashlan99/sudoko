@@ -66,7 +66,7 @@ public class FileCSVConverter {
 
     public String determineFilePath() {
         String filename = csvStringFileNameGenerator();
-        String basePath = "C:\\Users\\Mazen El-Kashlan\\Documents\\GitHub\\sudoko\\";
+        String basePath = "C:\\Users\\Mazen El-Kashlan\\Documents\\GitHub\\sudoko\\games\\";
         
         String folderPath = switch (diffLevel) {
             case EASY -> basePath + "easy\\";
@@ -74,7 +74,6 @@ public class FileCSVConverter {
             case HARD -> basePath + "hard\\";
         };
         
-        // Create directory if it doesn't exist
         File directory = new File(folderPath);
         if (!directory.exists()) {
             directory.mkdirs();
@@ -110,5 +109,26 @@ public class FileCSVConverter {
                 System.out.println(fileEntry.getName());
             }
         }
+    }
+
+    public boolean folderContainsGame (String fileFolder){
+        File folder=new File(fileFolder);
+        File[] folders = folder.listFiles();
+        return folders != null && folders.length != 0;
+    }
+
+    public void listGameFiles(){
+        System.out.println("Easy Game Files:");
+        listFilesForFolder("C:\\Users\\Mazen El-Kashlan\\Documents\\GitHub\\sudoko\\games\\easy\\");
+        System.out.println("Contains Files : " + folderContainsGame("C:\\Users\\Mazen El-Kashlan\\Documents\\GitHub\\sudoko\\games\\easy\\"));
+        System.out.println();
+        System.out.println("Medium Game Files:");
+        listFilesForFolder("C:\\Users\\Mazen El-Kashlan\\Documents\\GitHub\\sudoko\\games\\medium\\");
+        System.out.println("Contains Files : " + folderContainsGame("C:\\Users\\Mazen El-Kashlan\\Documents\\GitHub\\sudoko\\games\\medium\\"));
+        System.out.println();
+        System.out.println("Hard Game Files:");
+        listFilesForFolder("C:\\Users\\Mazen El-Kashlan\\Documents\\GitHub\\sudoko\\games\\hard\\");
+        System.out.println("Contains Files : " + folderContainsGame("C:\\Users\\Mazen El-Kashlan\\Documents\\GitHub\\sudoko\\games\\hard\\"));
+        System.out.println();
     }
 }
