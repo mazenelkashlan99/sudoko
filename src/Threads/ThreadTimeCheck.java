@@ -6,11 +6,11 @@ public class ThreadTimeCheck {
     long endTime;
     long diffTime;
     
-    ThreadTimeCheck(int threadNum){
+    public ThreadTimeCheck(int threadNum){
             this.threadNum=threadNum;
     }
 
-    void start(){
+    public void start(){
         this.startTime = System.currentTimeMillis();
     }
 

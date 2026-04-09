@@ -4,39 +4,91 @@ import java.util.*;
 
 public class CSVGenerator {
 
-    private RandomPairs randomPairs;
-    private int[] sudokuNumbers;
+    private Csv.RandomPairs randomPairs;
     private int[][] sudokuNumbers2d;
-    private final int max=9;
-    private final int min=1;
 
-    public CSVGenerator(int cellsRemovedCount){
-        randomPairs=new RandomPairs();
-        sudokuNumbers=new int[81];
+    public CSVGenerator(){
+        randomPairs=new Csv.RandomPairs();
         sudokuNumbers2d=new int[9][9];
     }
 
-    public int[] generateNumbers(){
-        Random rand = new Random();
-        for (int i = 0; i<sudokuNumbers.length; i++){
-            int randomNum = rand.nextInt((max - min) + 1) + min;
-            sudokuNumbers[i]=randomNum;
-        }
-        return sudokuNumbers;
-    }
-
-    public int[][] convertOneDimensionArray(){
-        int z=0;
-        for (int i=0;i<9;i++){
-            for (int j=0;j<9;j++){
-                sudokuNumbers2d[i][j]=sudokuNumbers[z];
-                z++;
-            }
-        }
+    public int[][] generateValidBoard() {
+        sudokuNumbers2d = generateRandomValidBoard();  
         return sudokuNumbers2d;
     }
 
-    public int[][] replaceRandomPairs(int cellsWanted) {
+    public int[][] generateRandomValidBoard() {
+        
+        int[][] board = new int[9][9];  // Start empty
+        
+        // Start recursive filling from cell (0,0)
+        fillBoard(board, 0, 0);
+        
+        return board;
+    }
+
+    private boolean isValid(int[][] board, int row, int col, int num) {
+    // Check row
+        for (int c = 0; c < 9; c++) {
+            if (board[row][c] == num) {
+                return false;
+            }
+        }
+        
+        // Check column
+        for (int r = 0; r < 9; r++) {
+            if (board[r][col] == num) {
+                return false;
+            }
+        }
+        
+        // Check 3x3 box
+        int boxRow = (row / 3) * 3;
+        int boxCol = (col / 3) * 3;
+        
+        for (int r = 0; r < 3; r++) {
+            for (int c = 0; c < 3; c++) {
+                if (board[boxRow + r][boxCol + c] == num) {
+                    return false;
+                }
+            }
+        }
+        
+        // If no conflicts found, the number is valid
+        return true;
+    }
+
+    private boolean fillBoard(int[][] board, int row, int col) {
+
+        if (col == 9) {
+            col = 0;
+            row++;
+        }
+        
+        if (row == 9) {
+            return true;  
+        }
+        
+        List<Integer> numbers = new ArrayList<>();
+        for (int i = 1; i <= 9; i++) numbers.add(i);
+        Collections.shuffle(numbers);  
+        
+        for (int num : numbers) {
+            if (isValid(board, row, col, num)) {
+                board[row][col] = num;  
+                
+                if (fillBoard(board, row, col + 1)) {
+                    return true; 
+                }
+                
+                board[row][col] = 0;  
+            }
+        }
+        
+        return false;  
+    }
+
+    public int[][] replaceRandomPairs(int cellsWanted,int [][] board) {
         int pairsNeeded = (cellsWanted + 1) / 2;
 
         List<int[]> pairs = randomPairs.generateDistinctPairs(pairsNeeded);
@@ -50,12 +102,10 @@ public class CSVGenerator {
         List<Integer> cellsList = new ArrayList<>(uniqueCells);
         Random rand = new Random();
 
-        // Remove extras if we have too many
         while (cellsList.size() > cellsWanted) {
             cellsList.remove(rand.nextInt(cellsList.size()));
         }
 
-        // Add more if we have too few (rare, but just in case)
         while (cellsList.size() < cellsWanted) {
             int newCell = rand.nextInt(81);
             if (!cellsList.contains(newCell)) {
@@ -64,10 +114,10 @@ public class CSVGenerator {
         }
 
         for (int cellIndex : cellsList) {
-            sudokuNumbers2d[cellIndex/9][cellIndex%9] = 0;
+            board[cellIndex/9][cellIndex%9] = 0;
         }
 
         System.out.println("Requested: " + cellsWanted + ", Removed: " + cellsList.size());
-        return sudokuNumbers2d;
+        return board;
     }
 }

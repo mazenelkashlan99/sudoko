@@ -7,19 +7,19 @@ import Setup.ElementsWithRole;
 import Setup.ManageRoles;
 import Setup.Role;
 
-public class MultiThread extends ThreadAbstract{
+public class MultiThread extends Threads.ThreadAbstract {
 
     int[][] board;
     int threadNum;
     BoardBreakdown allRoles;
-    ThreadTimeCheck timeCheck;
+    Threads.ThreadTimeCheck timeCheck;
 
     public MultiThread(int[][] board, int threadNum){
         super(board);
         this.board=board;
         this.threadNum=threadNum;
         allRoles=new BoardBreakdown(board);
-        timeCheck=new ThreadTimeCheck(threadNum);
+        timeCheck=new Threads.ThreadTimeCheck(threadNum);
     }
 
     public void divideRoles() {
@@ -41,7 +41,7 @@ public class MultiThread extends ThreadAbstract{
         });
         
         Thread boxThread = new Thread(() -> {
-            ManageRoles boardBoxes = new ManageRoles(allRoles.getBoxes(), Role.BOX);
+            ManageRoles boardBoxes = new ManageRoles(allRoles.getBoxes(), Setup.Role.BOX);
             System.out.println("Box thread starting...");
             boardBoxes.CheckRoleValidity();
             System.out.println("Box thread completed");
