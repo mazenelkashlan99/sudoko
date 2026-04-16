@@ -4,29 +4,25 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class FileCSVConverter {
-    private static int fileCount=0;
-    private final Difficulty diffLevel;
-    private CSVGenerator csv;
+    private final Csv.Difficulty diffLevel;
+    private Csv.CSVGenerator csv;
     private int[][] game2dEdited;
 
 
-    public FileCSVConverter(Difficulty diffLevel){
-        game2dEdited=new CSVGenerator().generateRandomValidBoard();
-        csv=new CSVGenerator();
+    public FileCSVConverter(Csv.Difficulty diffLevel){
+        game2dEdited=new Csv.CSVGenerator().generateRandomValidBoard();
+        csv=new Csv.CSVGenerator();
         this.diffLevel=diffLevel;
     }
 
     public static int[] flatten(int[][] data) {
 
         List<Integer> toReturn = new ArrayList<Integer>();
-        for (int[] sublist : data) {  // Removed Arrays.asList()
-            for (int elem : sublist) {
+        for (int[] subList : data) {  
+            for (int elem : subList) {
                 toReturn.add(elem);
             }
         }
@@ -66,12 +62,12 @@ public class FileCSVConverter {
 
     public String determineFilePath() {
         String filename = csvStringFileNameGenerator();
-        String basePath = "C:\\Users\\Mazen El-Kashlan\\Documents\\GitHub\\sudoko\\games\\";
+        String basePath = "games";
         
         String folderPath = switch (diffLevel) {
-            case EASY -> basePath + "easy\\";
-            case MEDIUM -> basePath + "medium\\";
-            case HARD -> basePath + "hard\\";
+            case EASY -> basePath + "/easy/";
+            case MEDIUM -> basePath + "/medium/";
+            case HARD -> basePath + "/hard/";
         };
         
         File directory = new File(folderPath);
@@ -79,7 +75,7 @@ public class FileCSVConverter {
             directory.mkdirs();
         }
         
-        return folderPath + filename;
+        return folderPath + filename;    
     }
 
     public void givenDataArray_whenConvertToCSV_thenOutputCreated() throws IOException {
@@ -102,7 +98,7 @@ public class FileCSVConverter {
 
     public void listFilesForFolder(final String fileFolder) {
         File folder=new File(fileFolder);
-        for (final File fileEntry : folder.listFiles()) {
+        for (final File fileEntry : Objects.requireNonNull(folder.listFiles())) {
             if (fileEntry.isDirectory()) {
                 listFilesForFolder(fileEntry.getAbsolutePath());
             } else {
@@ -119,16 +115,16 @@ public class FileCSVConverter {
 
     public void listGameFiles(){
         System.out.println("Easy Game Files:");
-        listFilesForFolder("C:\\Users\\Mazen El-Kashlan\\Documents\\GitHub\\sudoko\\games\\easy\\");
-        System.out.println("Contains Files : " + folderContainsGame("C:\\Users\\Mazen El-Kashlan\\Documents\\GitHub\\sudoko\\games\\easy\\"));
+        listFilesForFolder("games/easy");
+        System.out.println("Contains Files : " + folderContainsGame("games/easy"));
         System.out.println();
         System.out.println("Medium Game Files:");
-        listFilesForFolder("C:\\Users\\Mazen El-Kashlan\\Documents\\GitHub\\sudoko\\games\\medium\\");
-        System.out.println("Contains Files : " + folderContainsGame("C:\\Users\\Mazen El-Kashlan\\Documents\\GitHub\\sudoko\\games\\medium\\"));
+        listFilesForFolder("games/medium");
+        System.out.println("Contains Files : " + folderContainsGame("games/medium"));
         System.out.println();
         System.out.println("Hard Game Files:");
-        listFilesForFolder("C:\\Users\\Mazen El-Kashlan\\Documents\\GitHub\\sudoko\\games\\hard\\");
-        System.out.println("Contains Files : " + folderContainsGame("C:\\Users\\Mazen El-Kashlan\\Documents\\GitHub\\sudoko\\games\\hard\\"));
+        listFilesForFolder("games/hard");
+        System.out.println("Contains Files : " + folderContainsGame("games/hard"));
         System.out.println();
     }
 }

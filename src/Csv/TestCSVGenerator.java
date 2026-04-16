@@ -6,7 +6,7 @@ import java.util.Arrays;
 public class TestCSVGenerator {
     public static void main(String[] args) throws IOException {  
 
-        FileCSVConverter csv = new FileCSVConverter(Difficulty.HARD);
+        FileCSVConverter csv = new FileCSVConverter(Difficulty.MEDIUM);
         
         int[][] initialBoard = csv.getgame2dedited();
         System.out.println("Initial board:");

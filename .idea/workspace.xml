@@ -5,25 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2451fef9-6bb5-4265-aa47-0b3d33bebb86" name="Changes" comment="fixed GameState">
-      <change afterPath="$PROJECT_DIR$/src/Csv/FileCSVConverter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Csv/CSVFileByDifficuilty.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Csv/CSVGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Csv/CSVGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Csv/Difficulty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Csv/Difficulty.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Csv/TestCSVGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Csv/TestCSVGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/MainFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/MainFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/SudokuMenuPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/SudokuMenuPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Threads/MultiThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Threads/MultiThread.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Threads/ThreadTimeCheck.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Threads/ThreadTimeCheck.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Verification/SourceSolutionVerification.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Verification/SourceSolutionVerification.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/untitled.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Csv/FileCSVConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Csv/FileCSVConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MVC/SudokuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MVC/SudokuController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,7 +27,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6
@@ -53,36 +37,36 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Main.executor": "Run",
-    "Application.MainFrame.executor": "Run",
-    "Application.MenuPanel.executor": "Run",
-    "Application.SourceSolutionVerification.executor": "Run",
-    "Application.SudokuMainFrame.executor": "Run",
-    "Application.TestCSVGenerator.executor": "Debug",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH": "448",
-    "git-widget-placeholder": "setup-create",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Mazen El-Kashlan/Documents/GitHub/sudoko",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "reference.settingsdialog.IDE.editor.colors"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.MainFrame.executor&quot;: &quot;Run&quot;,
+    &quot;Application.MenuPanel.executor&quot;: &quot;Run&quot;,
+    &quot;Application.SourceSolutionVerification.executor&quot;: &quot;Run&quot;,
+    &quot;Application.SudokuMainFrame.executor&quot;: &quot;Run&quot;,
+    &quot;Application.TestCSVGenerator.executor&quot;: &quot;Debug&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH&quot;: &quot;448&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;setup-create&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Mazen El-Kashlan/Documents/GitHub/sudoko&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.IDE.editor.colors&quot;
   }
-}]]></component>
+}</component>
   <component name="RunAnythingCache">
     <option name="myCommands">
       <command value="Main" />
     </option>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="UNNAMED_CLASS_CONFIGURATION" value="true" />
       <option name="MAIN_CLASS_NAME" value="Main" />
