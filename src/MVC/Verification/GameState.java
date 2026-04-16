@@ -12,7 +12,7 @@ public class GameState {
     private ElementsWithRole elements;
     ArrayList<int[]> allRoles;
 
-    GameState(int[][] game){
+    public GameState(int[][] game){
         this.game=game;
         elements=new ElementsWithRole();
         this.board=new BoardBreakdown(this.game);

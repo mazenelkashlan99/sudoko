@@ -3,6 +3,8 @@ package MVC;
 import Csv.Difficulty;
 import Csv.FileCSVConverter;
 import MVC.Exceptions.InvalidGame;
+import MVC.Exceptions.NotFoundException;
+import MVC.Exceptions.SolutionInvalidException;
 import MVC.Verification.GameState;
 
 import java.io.IOException;
@@ -15,13 +17,11 @@ import java.util.Arrays;
 
 public class SudokuController implements Viewable {
     private GameState currentGame;
-    private Controllable view;
     private FileCSVConverter fileLoader;
     private Difficulty difficulty;
 
     public SudokuController(Controllable view, Difficulty difficulty) {
         this.difficulty = difficulty;
-        this.view = view;
         this.fileLoader = new FileCSVConverter(this.difficulty);
     }
 
@@ -32,9 +32,7 @@ public class SudokuController implements Viewable {
         String hardFilePath = "games/hard";
         String incompleteFilePath = "games/incomplete";
 
-        boolean allModesExist = fileLoader.folderContainsGame(easyFilePath) &&
-                fileLoader.folderContainsGame(mediumFilePath) &&
-                fileLoader.folderContainsGame(hardFilePath);
+        boolean allModesExist = fileLoader.folderContainsGame(easyFilePath) && fileLoader.folderContainsGame(mediumFilePath) && fileLoader.folderContainsGame(hardFilePath);
         boolean hasIncomplete = fileLoader.folderContainsGame(incompleteFilePath);
 
         Catalog c1 = new Catalog();
@@ -65,11 +63,10 @@ public class SudokuController implements Viewable {
         throw new UnsupportedOperationException("Unimplemented method 'solveGame'");
     }
 
-    // Missing Viewable methods - add these:
     @Override
     public GameState getGame(Difficulty level) throws NotFoundException {
-        // TODO: Load a random game from the specified difficulty folder
-        throw new UnsupportedOperationException("Unimplemented method 'getGame'");
+        this.currentGame = new GameState(fileLoader.getgame2dedited());
+        return this.currentGame;
     }
 
     @Override
