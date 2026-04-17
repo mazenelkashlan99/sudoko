@@ -54,7 +54,7 @@ public class FileCSVConverter {
             }
         }
         return toReturn.stream().mapToInt(Integer::intValue).toArray();
-}
+    }
 
     public int[][] getgame2dedited(){
         return game2dEdited;

@@ -5,6 +5,7 @@ import Csv.FileCSVConverter;
 import MVC.Exceptions.InvalidGame;
 import MVC.Exceptions.NotFoundException;
 import MVC.Exceptions.SolutionInvalidException;
+import MVC.Solver.PermutationSolverIterator;
 import MVC.Verification.GameState;
 
 import java.io.IOException;
@@ -13,6 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class SudokuController implements Viewable {
@@ -20,9 +22,12 @@ public class SudokuController implements Viewable {
     private FileCSVConverter fileLoader;
     private Difficulty difficulty;
 
+    public SudokuController(){}
+
     public SudokuController(Controllable view, Difficulty difficulty) {
         this.difficulty = difficulty;
         this.fileLoader = new FileCSVConverter(this.difficulty);
+        PermutationSolverIterator permutationIterator=new PermutationSolverIterator();
     }
 
     @Override
@@ -60,7 +65,38 @@ public class SudokuController implements Viewable {
 
     @Override
     public int[] solveGame(GameState game) throws InvalidGame {
-        throw new UnsupportedOperationException("Unimplemented method 'solveGame'");
+        PermutationSolverIterator permutationIterator=new PermutationSolverIterator();
+        ArrayList<Integer> zeroIndexes = new ArrayList<Integer>();
+        if (game.getState().equals("Valid") || game.getState().equals("Invalid")) {
+            throw new InvalidGame("Cannot solve game with state: " + game.getState());
+        }
+        int[][] gameArr2d = game.getGame();
+        for (int i = 0; i < 81; i++) {
+            int irow = i / 9;
+            int icolumn = i % 9;
+            if (gameArr2d[irow][icolumn] == 0) {
+                zeroIndexes.add(i);
+            }
+        }
+        if (zeroIndexes.size() != 5) {
+            throw new InvalidGame("Game doesn't have 5 0s");
+        } else {
+            ArrayList<Integer> zeroValuesReplacement = null;
+            while (!game.getState().equals("Valid")) {
+                zeroValuesReplacement = permutationIterator.generateNumbers();
+                for (int i = 0; i < 5; i++) {
+                    int row = zeroIndexes.get(i) / 9;
+                    int column = zeroIndexes.get(i) % 9;
+                    gameArr2d[row][column] = zeroValuesReplacement.get(i);
+                    game.setGame(gameArr2d);
+                }
+            }
+            int[] correctZeroValuesReplacement = new int[5];
+            for (int i = 0; i < 5; i++) {
+                correctZeroValuesReplacement[i] = zeroValuesReplacement.get(i);
+            }
+            return correctZeroValuesReplacement;
+        }
     }
 
     @Override
