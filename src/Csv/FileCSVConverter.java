@@ -6,15 +6,42 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import MVC.Verification.GameState;
+
 public class FileCSVConverter {
     private final Csv.Difficulty diffLevel;
-    private Csv.CSVGenerator csv;
+    private Csv.CSVGenerator csvGenerator;
     private int[][] game2dEdited;
+    private int[][] givenGameArray;
 
+    public FileCSVConverter(Csv.Difficulty diffLevel,int[][] givenGameArray){
+        this.diffLevel = diffLevel;
+        this.givenGameArray=givenGameArray;
+    }
+
+    public void generateSpecificGameCopies(int[][] givenGameArray) throws IOException{
+        FileCSVConverter csvEasy = new FileCSVConverter(Difficulty.EASY,givenGameArray);
+        FileCSVConverter csvMedium = new FileCSVConverter(Difficulty.MEDIUM,givenGameArray);
+        FileCSVConverter csvHard = new FileCSVConverter(Difficulty.HARD,givenGameArray);
+        ArrayList <FileCSVConverter> csvArrayListByDiff=new ArrayList<FileCSVConverter>();
+        GameState gamestate=new GameState(givenGameArray);
+        if (gamestate.getState().equals("Valid")){
+            csvArrayListByDiff.add(csvEasy);
+            csvArrayListByDiff.add(csvMedium);
+            csvArrayListByDiff.add(csvHard);
+            for (var csv:csvArrayListByDiff){
+                int[][] gameArrayWithZeros=csv.generateGameArray(givenGameArray);
+                csv.givenDataArray_whenConvertToCSV_thenOutputCreated(gameArrayWithZeros);
+            }
+        }   
+        else{
+            throw new IllegalArgumentException("Game is: " + gamestate.getState());
+        } 
+    }
 
     public FileCSVConverter(Csv.Difficulty diffLevel){
         game2dEdited=new Csv.CSVGenerator().generateRandomValidBoard();
-        csv=new Csv.CSVGenerator();
+        csvGenerator=new Csv.CSVGenerator();
         this.diffLevel=diffLevel;
     }
 
@@ -33,17 +60,34 @@ public class FileCSVConverter {
         return game2dEdited;
     }
 
+    public int[][] generateGameArray(int[][] gameBoard){
+        switch (diffLevel){
+            case EASY:
+                game2dEdited= csvGenerator.replaceRandomPairs(10,gameBoard);
+                break;
+            case MEDIUM:
+                game2dEdited= csvGenerator.replaceRandomPairs(20,gameBoard);
+                break;
+            case HARD:
+                game2dEdited= csvGenerator.replaceRandomPairs(25,gameBoard);
+                break;
+
+        }
+        return game2dEdited;
+    }
+
+
     public int[][] generateGameArray(){
 
         switch (diffLevel){
             case EASY:
-                game2dEdited= csv.replaceRandomPairs(10,game2dEdited);
+                game2dEdited= csvGenerator.replaceRandomPairs(10,game2dEdited);
                 break;
             case MEDIUM:
-                game2dEdited= csv.replaceRandomPairs(20,game2dEdited);
+                game2dEdited= csvGenerator.replaceRandomPairs(20,game2dEdited);
                 break;
             case HARD:
-                game2dEdited= csv.replaceRandomPairs(25,game2dEdited);
+                game2dEdited= csvGenerator.replaceRandomPairs(25,game2dEdited);
                 break;
 
         }
@@ -78,8 +122,24 @@ public class FileCSVConverter {
         return folderPath + filename;    
     }
 
-    public void givenDataArray_whenConvertToCSV_thenOutputCreated() throws IOException {
+    public void givenDataArray_whenConvertToCSV_thenOutputCreated(int[][] board) throws IOException {
+        int count=0;
+        try (FileWriter obj = new FileWriter(determineFilePath())) {
+            for (var i : flatten(board)){
+                obj.append(String.valueOf(i));
+                if ((count+1)%9==0){
+                    obj.append("\n");
+                }
+                else{
+                    obj.append(",");
+                }
+                count++;
+            }
+        }
 
+    }
+
+    public void givenDataArray_whenConvertToCSV_thenOutputCreated() throws IOException {
         int count=0;
         try (FileWriter obj = new FileWriter(determineFilePath())) {
             for (var i : flatten(game2dEdited)){

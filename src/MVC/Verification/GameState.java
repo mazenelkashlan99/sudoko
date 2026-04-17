@@ -22,6 +22,10 @@ public class GameState {
         allRoles.addAll(this.board.getBoxes());
     }
 
+    public int[][] getGame(){
+        return this.game;
+    }
+
     public boolean checkZeros(int [] arr){
         for (var i: arr){
             if (i==0){
@@ -41,7 +45,7 @@ public class GameState {
             }
         }
 
-        return "Complete";
+        return "Valid";
     }
 
 }

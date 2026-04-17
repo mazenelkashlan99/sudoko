@@ -71,7 +71,14 @@ public class SudokuController implements Viewable {
 
     @Override
     public void driveGames(GameState source) throws SolutionInvalidException {
-        // TODO: Verify source, then generate easy/medium/hard
-        throw new UnsupportedOperationException("Unimplemented method 'driveGames'");
+        String state = verifyGame(source);
+        if (!state.equals("Valid")) {
+            throw new SolutionInvalidException("Source game is " + state);
+        }
+        try {
+            fileLoader.generateSpecificGameCopies(source.getGame());
+        } catch (IOException e) {
+            throw new SolutionInvalidException("Failed to save game files: " + e.getMessage());
+        }
     }
 }

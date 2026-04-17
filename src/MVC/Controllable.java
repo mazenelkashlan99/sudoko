@@ -3,7 +3,6 @@ import java.io.IOException;
 import MVC.Exceptions.*;;
 //
 public interface Controllable{
-
     Catalog getCatalog();
     int[][] getGame(char level) throws NotFoundException;
     void driveGames(int[][] source) throws SolutionInvalidException;
@@ -13,5 +12,4 @@ public interface Controllable{
     int[][] solveGame(int[][] game) throws InvalidGame;
     // Logs the user action
     void logUserAction(UserAction userAction) throws IOException;
-    
 }
