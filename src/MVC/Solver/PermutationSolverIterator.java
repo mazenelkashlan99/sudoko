@@ -1,18 +1,43 @@
 package MVC.Solver;
 
-import java.util.ArrayList;
-import java.util.Random;
 public class PermutationSolverIterator {
     
-    public PermutationSolverIterator(){}
-
-    public ArrayList<Integer> generateNumbers(){
-        Random rand = new Random();
-        ArrayList<Integer> numbersGenerated=new ArrayList<Integer>();
-        for (int i=0;i<5;i++){
-          int randomNum = rand.nextInt(9 - 1 + 1) + 1;
-          numbersGenerated.add(randomNum);
+    private int[] current;
+    private int count;
+    private static final int TOTAL_PERMUTATIONS = 59049;
+    
+    public PermutationSolverIterator(){
+        count=0;
+        current=new int[5];
+        for (int i=0;i<current.length;i++){
+            current[i]=1;
         }
-        return numbersGenerated;
+    }
+
+    public boolean hasNext(){
+        return count < TOTAL_PERMUTATIONS;
+    }
+
+    private int[] getNextCombination(int[] current){
+        for (int i=4;i>=0;i--){
+            if (current[i]<9){
+                current[i]+=1;
+                break;
+            }
+            else{
+                current[i]=1;
+            }
+        }
+        return current;
+    }
+
+    public int[] next(){
+        if (hasNext()){
+            int [] currentReplicate=current.clone();
+            count+=1;
+            current=getNextCombination(currentReplicate);
+            return currentReplicate;
+        }
+        return null;
     }
 }
