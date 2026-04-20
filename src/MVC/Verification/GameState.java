@@ -40,7 +40,11 @@ public class GameState {
     }
 
     public String getState(){
-
+        allRoles.clear();
+        allRoles.addAll(this.board.getRows());
+        allRoles.addAll(this.board.getColumns());
+        allRoles.addAll(this.board.getBoxes());
+        
         for (var i : allRoles){
             if (!this.elements.checkElementsVariation(i)) {
                 return "Invalid";
@@ -48,7 +52,6 @@ public class GameState {
                 return "Incomplete";
             }
         }
-
         return "Valid";
     }
 

@@ -1,10 +1,13 @@
 package MVC;
 
+import java.util.Arrays;
+
 import MVC.Exceptions.InvalidGame;
 import MVC.Verification.GameState;
 
 public class TestsolveGame {
     public static void main(String[] args) throws InvalidGame {
+        
         int [][] sudokuBoard={{5,3,0,6,7,8,0,1,2},
                             {6,7,2,1,9,5,3,4,8},
                             {1,9,8,3,4,2,5,6,7},
@@ -17,7 +20,6 @@ public class TestsolveGame {
         GameState game=new GameState(sudokuBoard);
         System.out.println(game.getState());
         SudokuController sudokuController=new SudokuController();
-        System.out.println(sudokuController.solveGame(game));
-        System.out.println("HI");
+        System.out.println(Arrays.toString(sudokuController.solveGame(game)));
     }
 }

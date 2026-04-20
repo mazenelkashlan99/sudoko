@@ -65,9 +65,9 @@ public class SudokuController implements Viewable {
 
     @Override
     public int[] solveGame(GameState game) throws InvalidGame {
-        PermutationSolverIterator permutationIterator=new PermutationSolverIterator();
+        PermutationSolverIterator permutationIterator = new PermutationSolverIterator();
         ArrayList<Integer> zeroIndexes = new ArrayList<Integer>();
-        if (game.getState().equals("Valid") || game.getState().equals("Invalid")) {
+        if (!game.getState().equals("Incomplete")) {
             throw new InvalidGame("Cannot solve game with state: " + game.getState());
         }
         int[][] gameArr2d = game.getGame();
@@ -81,21 +81,25 @@ public class SudokuController implements Viewable {
         if (zeroIndexes.size() != 5) {
             throw new InvalidGame("Game doesn't have 5 0s");
         } else {
-            ArrayList<Integer> zeroValuesReplacement = null;
-            while (!game.getState().equals("Valid")) {
-                zeroValuesReplacement = permutationIterator.generateNumbers();
+            int[] zeroValuesReplacement = null;
+            while (permutationIterator.hasNext()) {
+                zeroValuesReplacement = permutationIterator.next();
                 for (int i = 0; i < 5; i++) {
                     int row = zeroIndexes.get(i) / 9;
                     int column = zeroIndexes.get(i) % 9;
-                    gameArr2d[row][column] = zeroValuesReplacement.get(i);
-                    game.setGame(gameArr2d);
+                    gameArr2d[row][column] = zeroValuesReplacement[i];
+                }
+                if (game.getState().equals("Valid")) {
+                    return zeroValuesReplacement;
+                }
+                for (int i = 0; i < 5; i++) {
+                    int row = zeroIndexes.get(i) / 9;
+                    int column = zeroIndexes.get(i) % 9;
+                    gameArr2d[row][column] = 0;
                 }
             }
-            int[] correctZeroValuesReplacement = new int[5];
-            for (int i = 0; i < 5; i++) {
-                correctZeroValuesReplacement[i] = zeroValuesReplacement.get(i);
-            }
-            return correctZeroValuesReplacement;
+
+            throw new InvalidGame("No solution exists for this board");
         }
     }
 
