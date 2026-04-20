@@ -7,18 +7,30 @@ import java.util.ArrayList;
 
 public class GameState {
 
-    private final int[][] game;
-    private final BoardBreakdown board;
+    private int[][] game;
+    private BoardBreakdown board;
     private ElementsWithRole elements;
     ArrayList<int[]> allRoles;
 
-    GameState(int[][] game){
+    public GameState(int[][] game){
         this.game=game;
         elements=new ElementsWithRole();
-        this.elements = elements;
         this.board=new BoardBreakdown(this.game);
         allRoles=new ArrayList<int[]>();
         allRoles.addAll(this.board.getRows());
+        allRoles.addAll(this.board.getColumns());
+        allRoles.addAll(this.board.getBoxes());
+    }
+
+    public int[][] getGame(){
+        return this.game;
+    }
+
+    public void setGame(int[][] newGame){
+        this.game = newGame;
+        this.board = new BoardBreakdown(this.game); // rebuild board
+        allRoles.clear();
+        allRoles.addAll(this.board.getRows());      // rebuild allRoles
         allRoles.addAll(this.board.getColumns());
         allRoles.addAll(this.board.getBoxes());
     }
@@ -33,7 +45,12 @@ public class GameState {
     }
 
     public String getState(){
-
+        this.board = new BoardBreakdown(this.game); 
+        allRoles.clear();
+        allRoles.addAll(this.board.getRows());
+        allRoles.addAll(this.board.getColumns());
+        allRoles.addAll(this.board.getBoxes());
+        
         for (var i : allRoles){
             if (!this.elements.checkElementsVariation(i)) {
                 return "Invalid";
@@ -41,8 +58,7 @@ public class GameState {
                 return "Incomplete";
             }
         }
-
-        return "Complete";
+        return "Valid";
     }
 
 }

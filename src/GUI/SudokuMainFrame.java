@@ -1,9 +1,12 @@
-package GUI;
+package Gui;
 
 import javax.swing.*;
+
+import MVC.Controllable;
+
 import java.awt.*;
 
-public class SudokuMainFrame extends JFrame {
+public class SudokuMainFrame extends JFrame{
 
     public SudokuMainFrame() {
         setTitle("Sudoku");

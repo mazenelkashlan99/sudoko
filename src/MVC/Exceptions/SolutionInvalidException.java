@@ -2,7 +2,7 @@ package MVC.Exceptions;
 
 public class SolutionInvalidException extends Exception{
 
-     SolutionInvalidException(String message){
+     public SolutionInvalidException(String message){
         super(message);
     }
     

@@ -1,4 +1,5 @@
-package GUI;
+package Gui;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
@@ -13,7 +14,7 @@ public class MainFrame extends JFrame implements Controllable{
     public MainFrame() {
         setTitle("Sudoku Game");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        GUI.Board board = new GUI.Board();
+        Gui.Board board = new Gui.Board();
         add(board);
         pack();
         setLocationRelativeTo(null);
