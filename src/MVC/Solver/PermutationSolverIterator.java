@@ -1,5 +1,6 @@
 package MVC.Solver;
 
+
 public class PermutationSolverIterator {
     
     private int[] current;
@@ -19,6 +20,7 @@ public class PermutationSolverIterator {
     }
 
     private int[] getNextCombination(int[] current){
+
         for (int i=4;i>=0;i--){
             if (current[i]<9){
                 current[i]+=1;
@@ -33,9 +35,14 @@ public class PermutationSolverIterator {
 
     public int[] next(){
         if (hasNext()){
+            if (count==0){
+                int[] temp={1,1,1,1,1};
+                count+=1;
+                return temp;
+            }
             int [] currentReplicate=current.clone();
-            count+=1;
             current=getNextCombination(currentReplicate);
+            count+=1;
             return currentReplicate;
         }
         return null;

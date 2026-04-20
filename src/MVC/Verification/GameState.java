@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class GameState {
 
     private int[][] game;
-    private final BoardBreakdown board;
+    private BoardBreakdown board;
     private ElementsWithRole elements;
     ArrayList<int[]> allRoles;
 
@@ -27,7 +27,12 @@ public class GameState {
     }
 
     public void setGame(int[][] newGame){
-        this.game=newGame;
+        this.game = newGame;
+        this.board = new BoardBreakdown(this.game); // rebuild board
+        allRoles.clear();
+        allRoles.addAll(this.board.getRows());      // rebuild allRoles
+        allRoles.addAll(this.board.getColumns());
+        allRoles.addAll(this.board.getBoxes());
     }
 
     public boolean checkZeros(int [] arr){
@@ -40,6 +45,7 @@ public class GameState {
     }
 
     public String getState(){
+        this.board = new BoardBreakdown(this.game); 
         allRoles.clear();
         allRoles.addAll(this.board.getRows());
         allRoles.addAll(this.board.getColumns());
