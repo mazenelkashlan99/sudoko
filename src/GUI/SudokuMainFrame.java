@@ -42,13 +42,14 @@ public class SudokuMainFrame extends JFrame implements Controllable {
 
     @Override
     public Catalog getCatalog() {
-        // TODO: delegate to controller
-        return null;
+        return controllerCatalog;
     }
 
     @Override
     public int[][] getGame(char level) throws NotFoundException {
         // TODO: call controller.getGame(), update boardPanel, return board data
+        Game game=controller.getGame(onDifficultySelected(level));
+        boardPanel.setBoardValues(game);
         return null;
     }
 
@@ -75,8 +76,17 @@ public class SudokuMainFrame extends JFrame implements Controllable {
     }
 
     // Optional helper for menu
-    public void onDifficultySelected(char level) {
-        // TODO: call getGame(level)
+    public Difficulty onDifficultySelected(char level) {
+        switch (Character.toUpperCase(level)) {
+            case ('E'):
+                return Difficulty.EASY;
+            case ('M'):
+                return Difficulty.MEDIUM;
+            case ('H'):
+                return Difficulty.HARD;
+            default:
+                return null;
+        }
     }
 
     public static void main(String[] args) {
