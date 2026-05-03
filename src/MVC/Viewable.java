@@ -5,7 +5,7 @@ import java.io.IOException;
 import Csv.Difficulty;
 import MVC.Verification.GameState;
 import MVC.Exceptions.*;
-interface Viewable{
+public interface Viewable{
 
     Catalog getCatalog();
     // Returns a random game with the specified difficulty

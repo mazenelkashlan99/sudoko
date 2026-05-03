@@ -1,7 +1,7 @@
 package Gui;
 
 import javax.swing.*;
-import javax.swing.Timer;
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -33,6 +33,18 @@ public class SudokuMenuPanel extends JPanel {
     private Timer glowTimer;
     private int selectedDifficulty = -1;
     private Point mousePosition = new Point(-1, -1);
+
+    private SudokuMainFrame mainFrame;
+
+    public SudokuMenuPanel(SudokuMainFrame frame) {
+        this.mainFrame = frame;
+        setLayout(new GridBagLayout());
+        setOpaque(false);
+        initComponents();
+        layoutComponents();
+        setupAnimations();
+        setupMouseMotionListener();
+    }
 
     public SudokuMenuPanel() {
         setLayout(new GridBagLayout());

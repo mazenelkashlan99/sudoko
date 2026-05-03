@@ -55,6 +55,23 @@ public class Board extends JPanel {
         }
     }
 
+    public int[][] getBoardValues() {
+        int[][] board = new int[9][9];
+        for (int sq = 0; sq < 9; sq++) {
+            NineSquare nineSquare = gridSquares[sq];
+            for (int cell = 0; cell < 9; cell++) {
+                JTextField tf = nineSquare.getCell(cell); // you need this getter
+                String text = tf.getText();
+                int value = text.isEmpty() ? 0 : Integer.parseInt(text);
+                int row = (sq / 3) * 3 + (cell / 3);
+                int col = (sq % 3) * 3 + (cell % 3);
+                board[row][col] = value;
+            }
+        }
+        return board;
+    }
+
+
     public void navigateUp(NineSquare currentSquare, int cellIndex) {
         int squareIndex = currentSquare.getSquareIndex();
         int row = cellIndex / 3;
@@ -95,5 +112,18 @@ public class Board extends JPanel {
             return gridSquares[squareIndex].getCell(cellIndex); // You'll need to add this getter
         }
         return null;
+    }
+
+    public void setBoardValues(int[][] game) {
+        for (int sq = 0; sq < 9; sq++) {
+            NineSquare nineSquare = gridSquares[sq];
+            for (int cell = 0; cell < 9; cell++) {
+                // Convert square index and cell index to row/column
+                int row = (sq / 3) * 3 + (cell / 3);
+                int col = (sq % 3) * 3 + (cell % 3);
+                int value = game[row][col];
+                nineSquare.setCellValue(cell, value);
+            }
+        }
     }
 }

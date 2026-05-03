@@ -137,4 +137,12 @@ public class NineSquare extends JPanel {
         }
         return null;
     }
+
+    public void setCellValue(int index, int value) {
+        if (index < 0 || index >= fields.length) return;
+        if (value == 0)
+            fields[index].setText("");
+        else
+            fields[index].setText(String.valueOf(value));
+    }
 }
