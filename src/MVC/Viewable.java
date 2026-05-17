@@ -1,6 +1,7 @@
 package MVC;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import Csv.Difficulty;
 import MVC.Verification.GameState;
@@ -25,4 +26,5 @@ public interface Viewable{
     int[] solveGame(GameState game) throws InvalidGame;
     // Logs the user action
     void logUserAction(String userAction) throws IOException;
+    GameState getIncompleteGame() throws NotFoundException;
 }
