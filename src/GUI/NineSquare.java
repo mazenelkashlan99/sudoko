@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class NineSquare extends JPanel {
+
     private static final int CELL_SIZE = 60;
     private static final int FONT_SIZE = 28;
     private JTextField[] fields;
@@ -46,11 +47,13 @@ public class NineSquare extends JPanel {
                     while (parent != null && !(parent instanceof Board)) parent = parent.getParent();
                     if (parent instanceof Board) {
                         Board board = (Board) parent;
-                        if (board.getOnBoardChange() != null)
+                        if (board.getOnBoardChange() != null) {
                             board.getOnBoardChange().run();
+                        }
                     }
                 }
             });
+
             fields[i].addKeyListener(new NavigationKeyListener(this, i));
         }
     }
@@ -60,6 +63,7 @@ public class NineSquare extends JPanel {
         setBorder(BorderFactory.createMatteBorder(8, 8, 8, 8, new Color(70, 130, 200)));
     }
 
+    // Navigation
     public void focusCell(int cellIndex) {
         if (cellIndex >= 0 && cellIndex < fields.length) {
             fields[cellIndex].requestFocus();
@@ -68,20 +72,50 @@ public class NineSquare extends JPanel {
     }
 
     public int getSquareIndex() { return squareIndex; }
-    public JTextField getCell(int cellIndex) { return (cellIndex >= 0 && cellIndex < fields.length) ? fields[cellIndex] : null; }
-    public void setCellValue(int index, int value) {
-        if (index < 0 || index >= fields.length) return;
-        if (value == 0) fields[index].setText("");
-        else fields[index].setText(String.valueOf(value));
+
+    // Core methods used by Board
+    public JTextField getCell(int cellIndex) {
+        return (cellIndex >= 0 && cellIndex < fields.length) ? fields[cellIndex] : null;
     }
-    public void setCellEditable(int index, boolean editable) {
-        if (index >= 0 && index < fields.length) fields[index].setEditable(editable);
+
+    public int getCellValue(int cellIndex) {
+        if (cellIndex < 0 || cellIndex >= fields.length) return 0;
+        String text = fields[cellIndex].getText();
+        return text.isEmpty() ? 0 : Integer.parseInt(text);
     }
-    
+
+    public void setCellValue(int cellIndex, int value) {
+        if (cellIndex < 0 || cellIndex >= fields.length) return;
+        if (value == 0) fields[cellIndex].setText("");
+        else fields[cellIndex].setText(String.valueOf(value));
+    }
+
+    public void setCellEditable(int cellIndex, boolean editable) {
+        if (cellIndex >= 0 && cellIndex < fields.length) {
+            fields[cellIndex].setEditable(editable);
+        }
+    }
+
+    public void setCellBackground(int cellIndex, Color color) {
+        if (cellIndex >= 0 && cellIndex < fields.length) {
+            fields[cellIndex].setBackground(color);
+        }
+    }
+
+    public void setCellTextColor(int cellIndex, Color color) {
+        if (cellIndex >= 0 && cellIndex < fields.length) {
+            fields[cellIndex].setForeground(color);
+        }
+    }
+
+    // Navigation key listener
     private class NavigationKeyListener extends KeyAdapter {
         private NineSquare nineSquare;
         private int cellIndex;
-        public NavigationKeyListener(NineSquare nineSquare, int cellIndex) { this.nineSquare = nineSquare; this.cellIndex = cellIndex; }
+        public NavigationKeyListener(NineSquare nineSquare, int cellIndex) {
+            this.nineSquare = nineSquare;
+            this.cellIndex = cellIndex;
+        }
         @Override
         public void keyPressed(KeyEvent e) {
             Board board = (Board) getParent();
@@ -98,6 +132,7 @@ public class NineSquare extends JPanel {
         }
     }
 
+    // Document filter (only 1-9, single digit)
     public static class NumericalDocument extends PlainDocument {
         private static final String ALLOWED_CHARS = "123456789";
         @Override
@@ -108,18 +143,6 @@ public class NineSquare extends JPanel {
             } else {
                 Toolkit.getDefaultToolkit().beep();
             }
-        }
-    }
-
-    public void setCellBackground(int cellIndex, Color color) {
-        if (cellIndex >= 0 && cellIndex < fields.length) {
-            fields[cellIndex].setBackground(color);
-        }
-    }
-
-    public void setCellTextColor(int cellIndex, Color color) {
-        if (cellIndex >= 0 && cellIndex < fields.length) {
-            fields[cellIndex].setForeground(color);
         }
     }
 }

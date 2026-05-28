@@ -10,9 +10,7 @@ import MVC.Verification.GameState;
 import MVC.UserAction;
 import java.awt.*;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class SudokuMainFrame extends JFrame implements Controllable {
 
@@ -21,44 +19,42 @@ public class SudokuMainFrame extends JFrame implements Controllable {
     private SudokuMenuPanel menuPanel;
     private BoardFramePanel boardPanel;
     private JButton solveButton;
+    private JButton exitButton;
     private JLabel statusLabel;
     private MVC.Viewable controller;
     private Difficulty chosenDifficulty;
     private Set<Integer> solvedCells = new HashSet<>();
     private boolean completionMessageShown = false;
 
+    private javax.swing.Timer gameTimer;
+    private int elapsedSeconds = 0;
+    private int moveCount = 0;
+    private boolean ignoreBoardChange = false;
+
     public SudokuMainFrame() {
         setTitle("Sudoku");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setMinimumSize(new Dimension(750, 800));
+        setSize(950, 850);
+        setMinimumSize(new Dimension(900, 800));
+        setPreferredSize(new Dimension(950, 850));
 
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
 
-        // Menu card
         menuPanel = new SudokuMenuPanel(this);
         mainPanel.add(menuPanel, "menu");
 
-        // Game card: board + bottom panel
         JPanel gameCard = new JPanel(new BorderLayout());
         boardPanel = new BoardFramePanel();
         gameCard.add(boardPanel, BorderLayout.CENTER);
 
-        // Bottom panel with solve button and status
         JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.X_AXIS));
-        bottomPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        bottomPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 15, 20));
         bottomPanel.setBackground(new Color(30, 30, 40));
 
-        solveButton = new JButton("SOLVE");
-        solveButton.setOpaque(true);
-        solveButton.setContentAreaFilled(true);
-        solveButton.setFont(new Font("Segoe UI", Font.BOLD, 22));
-        solveButton.setForeground(Color.WHITE);
-        solveButton.setBackground(new Color(70, 130, 200));
-        solveButton.setFocusPainted(false);
-        solveButton.setPreferredSize(new Dimension(160, 60));
-        solveButton.setEnabled(false);
+        solveButton = createStyledButton("SOLVE", new Color(70, 130, 200), Color.WHITE);
+        solveButton.setPreferredSize(new Dimension(160, 55));
         solveButton.addActionListener(e -> {
             try {
                 int[][] current = boardPanel.getBoardValues();
@@ -71,21 +67,26 @@ public class SudokuMainFrame extends JFrame implements Controllable {
                 JOptionPane.showMessageDialog(this, ex.getMessage(), "Cannot Solve", JOptionPane.ERROR_MESSAGE);
             }
         });
+        solveButton.setEnabled(false);
 
-        statusLabel = new JLabel("Status: ");
-        statusLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        exitButton = createStyledButton("EXIT", new Color(60, 60, 80), Color.CYAN);
+        exitButton.setPreferredSize(new Dimension(160, 55));
+        exitButton.addActionListener(e -> System.exit(0));
+
+        statusLabel = new JLabel("Status: - | Time: 0s | Moves: 0 | Empty: 0");
+        statusLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
         statusLabel.setForeground(Color.WHITE);
-        statusLabel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
 
         bottomPanel.add(Box.createHorizontalGlue());
         bottomPanel.add(solveButton);
-        bottomPanel.add(Box.createHorizontalStrut(30));
+        bottomPanel.add(Box.createHorizontalStrut(20));
+        bottomPanel.add(exitButton);
+        bottomPanel.add(Box.createHorizontalStrut(20));
         bottomPanel.add(statusLabel);
         bottomPanel.add(Box.createHorizontalGlue());
 
         gameCard.add(bottomPanel, BorderLayout.SOUTH);
         mainPanel.add(gameCard, "game");
-
         add(mainPanel);
 
         controller = new SudokuController(this, Difficulty.EASY);
@@ -93,17 +94,65 @@ public class SudokuMainFrame extends JFrame implements Controllable {
         menuPanel.setContinueButtonEnabled(cat.current);
 
         boardPanel.getBoard().setOnBoardChange(() -> {
-            SwingUtilities.invokeLater(() -> {
-                updateSolveButton();
-                updateStatus();
-                updateColors();
-                checkCompletion();
-            });
+            if (!ignoreBoardChange) {
+                SwingUtilities.invokeLater(() -> {
+                    incrementMoveCount();
+                    updateSolveButton();
+                    updateStatus();
+                    updateColors();
+                    checkCompletion();
+                });
+            }
         });
 
         pack();
         setLocationRelativeTo(null);
         cardLayout.show(mainPanel, "menu");
+    }
+
+    private JButton createStyledButton(String text, Color bg, Color fg) {
+        JButton btn = new JButton(text);
+        btn.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        btn.setForeground(fg);
+        btn.setBackground(bg);
+        btn.setFocusPainted(false);
+        btn.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(bg.brighter(), 2),
+                BorderFactory.createEmptyBorder(8, 20, 8, 20)
+        ));
+        btn.setOpaque(true);
+        btn.setContentAreaFilled(true);
+        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        return btn;
+    }
+
+    private void incrementMoveCount() {
+        moveCount++;
+        updateStatus();
+    }
+
+    private void startTimer() {
+        if (gameTimer != null && gameTimer.isRunning()) gameTimer.stop();
+        elapsedSeconds = 0;
+        gameTimer = new javax.swing.Timer(1000, e -> {
+            elapsedSeconds++;
+            updateStatus();
+        });
+        gameTimer.start();
+    }
+
+    private void stopTimer() {
+        if (gameTimer != null) gameTimer.stop();
+    }
+
+    private void resetGameStats() {
+        stopTimer();
+        moveCount = 0;
+        elapsedSeconds = 0;
+        solvedCells.clear();
+        completionMessageShown = false;
+        startTimer();
+        updateStatus();
     }
 
     public void onDifficultyChosen(char level) {
@@ -113,10 +162,10 @@ public class SudokuMainFrame extends JFrame implements Controllable {
             return;
         }
         try {
+            ignoreBoardChange = true;
             int[][] board = getGame(level);
             if (board != null) {
-                solvedCells.clear();
-                completionMessageShown = false;
+                resetGameStats();
                 cardLayout.show(mainPanel, "game");
                 updateSolveButton();
                 updateStatus();
@@ -126,14 +175,16 @@ public class SudokuMainFrame extends JFrame implements Controllable {
             }
         } catch (NotFoundException e) {
             JOptionPane.showMessageDialog(this, "Failed to load game: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            ignoreBoardChange = false;
         }
     }
 
     public void onContinueGame() {
         try {
+            ignoreBoardChange = true;
             int[][] board = getGame('I');
-            solvedCells.clear();
-            completionMessageShown = false;
+            resetGameStats();
             cardLayout.show(mainPanel, "game");
             boardPanel.setBoardValues(board);
             updateSolveButton();
@@ -143,14 +194,13 @@ public class SudokuMainFrame extends JFrame implements Controllable {
             setLocationRelativeTo(null);
         } catch (NotFoundException e) {
             JOptionPane.showMessageDialog(this, "No incomplete game found", "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            ignoreBoardChange = false;
         }
     }
 
-    // ---------- Controllable methods ----------
     @Override
-    public Catalog getCatalog() {
-        return controller.getCatalog();
-    }
+    public Catalog getCatalog() { return controller.getCatalog(); }
 
     @Override
     public int[][] getGame(char level) throws NotFoundException {
@@ -193,7 +243,6 @@ public class SudokuMainFrame extends JFrame implements Controllable {
             }
         }
         boardPanel.setBoardValues(game);
-        // Apply black background and blue text to solved cells
         for (int index : solvedCells) {
             int row = index / 9;
             int col = index % 9;
@@ -208,7 +257,6 @@ public class SudokuMainFrame extends JFrame implements Controllable {
         controller.logUserAction(userAction.toString());
     }
 
-    // ---------- Private helpers ----------
     private Difficulty convertCharToDifficulty(char level) {
         switch (Character.toUpperCase(level)) {
             case 'E': return Difficulty.EASY;
@@ -224,15 +272,13 @@ public class SudokuMainFrame extends JFrame implements Controllable {
         for (int i = 0; i < 9; i++)
             for (int j = 0; j < 9; j++)
                 if (board[i][j] == 0) zeros++;
-        
         boolean enable = (zeros == 5);
         solveButton.setEnabled(enable);
-        
         if (enable) {
             solveButton.setBackground(Color.BLACK);
             solveButton.setForeground(Color.ORANGE);
         } else {
-            solveButton.setBackground(new Color(70, 130, 200)); // original blue
+            solveButton.setBackground(new Color(70, 130, 200));
             solveButton.setForeground(Color.WHITE);
         }
     }
@@ -244,14 +290,26 @@ public class SudokuMainFrame extends JFrame implements Controllable {
         for (int i = 0; i < 9; i++)
             for (int j = 0; j < 9; j++)
                 if (board[i][j] == 0) zeros++;
-        statusLabel.setText("Status: " + state + " | Remaining: " + zeros);
+        String conflictMsg = "";
+        if ("Invalid".equals(state)) {
+            Boolean[][] result = computeVerification(board);
+            outer: for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    if (!result[i][j]) {
+                        conflictMsg = String.format(" | Conflict at (%d,%d) value %d", i+1, j+1, board[i][j]);
+                        break outer;
+                    }
+                }
+            }
+        }
+        statusLabel.setText(String.format("Status: %s%s | Time: %ds | Moves: %d | Empty: %d",
+                state, conflictMsg, elapsedSeconds, moveCount, zeros));
     }
 
     private void updateColors() {
         int[][] board = boardPanel.getBoardValues();
         Boolean[][] result = computeVerification(board);
         boardPanel.applyVerification(result);
-        // Reapply black background and blue text to solved cells
         for (int index : solvedCells) {
             int row = index / 9;
             int col = index % 9;
@@ -276,7 +334,10 @@ public class SudokuMainFrame extends JFrame implements Controllable {
             String state = controller.verifyGame(new GameState(board));
             if ("Valid".equals(state)) {
                 completionMessageShown = true;
-                JOptionPane.showMessageDialog(this, "Sudoku now complete!", "Congratulations", JOptionPane.INFORMATION_MESSAGE);
+                stopTimer();
+                JOptionPane.showMessageDialog(this,
+                        "Sudoku now complete!\nTime: " + elapsedSeconds + " seconds\nMoves: " + moveCount,
+                        "Congratulations", JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }
@@ -287,7 +348,6 @@ public class SudokuMainFrame extends JFrame implements Controllable {
             for (int j = 0; j < 9; j++)
                 result[i][j] = true;
 
-        // rows
         for (int row = 0; row < 9; row++) {
             HashMap<Integer, Integer> seen = new HashMap<>();
             for (int col = 0; col < 9; col++) {
@@ -302,7 +362,6 @@ public class SudokuMainFrame extends JFrame implements Controllable {
                 }
             }
         }
-        // columns
         for (int col = 0; col < 9; col++) {
             HashMap<Integer, Integer> seen = new HashMap<>();
             for (int row = 0; row < 9; row++) {
@@ -317,7 +376,6 @@ public class SudokuMainFrame extends JFrame implements Controllable {
                 }
             }
         }
-        // boxes
         for (int box = 0; box < 9; box++) {
             int startRow = (box / 3) * 3;
             int startCol = (box % 3) * 3;
