@@ -91,7 +91,6 @@ public class SudokuMainFrame extends JFrame implements Controllable {
 
         controller = new SudokuController(this, Difficulty.EASY);
         Catalog cat = controller.getCatalog();
-        menuPanel.setContinueButtonEnabled(cat.current);
 
         boardPanel.getBoard().setOnBoardChange(() -> {
             if (!ignoreBoardChange) {

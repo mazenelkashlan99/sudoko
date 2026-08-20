@@ -6,7 +6,7 @@ import java.awt.event.*;
 
 public class SudokuMenuPanel extends JPanel {
 
-    // Color palette
+
     private static final Color BACKGROUND_GRADIENT_TOP = new Color(8, 12, 24);
     private static final Color BACKGROUND_GRADIENT_BOTTOM = new Color(16, 22, 40);
     private static final Color ACCENT_PRIMARY = new Color(64, 224, 208);
@@ -16,12 +16,10 @@ public class SudokuMenuPanel extends JPanel {
     private static final Color EASY_COLOR = new Color(72, 239, 128);
     private static final Color MEDIUM_COLOR = new Color(255, 193, 7);
     private static final Color HARD_COLOR = new Color(255, 71, 87);
-    private static final Color CONTINUE_COLOR = new Color(100, 150, 255);
 
     private JButton easyButton;
     private JButton mediumButton;
     private JButton hardButton;
-    private JButton continueButton;
     private JLabel titleLabel;
     private JLabel subtitleLabel;
     private JPanel buttonPanel;
@@ -32,7 +30,6 @@ public class SudokuMenuPanel extends JPanel {
 
     private SudokuMainFrame mainFrame;
 
-    // Constructor that receives the main frame
     public SudokuMenuPanel(SudokuMainFrame frame) {
         this.mainFrame = frame;
         setLayout(new GridBagLayout());
@@ -45,7 +42,6 @@ public class SudokuMenuPanel extends JPanel {
     }
 
     private void initComponents() {
-        // Title with gradient (custom painting)
         titleLabel = new JLabel("SUDOKU") {
             @Override
             protected void paintComponent(Graphics g) {
@@ -60,7 +56,6 @@ public class SudokuMenuPanel extends JPanel {
                 );
                 g2.setPaint(gradient);
 
-                // Glow effect
                 g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f + titleGlow * 0.2f));
                 g2.setFont(getFont());
                 FontMetrics fm = g2.getFontMetrics();
@@ -69,7 +64,6 @@ public class SudokuMenuPanel extends JPanel {
                 int y = (getHeight() - fm.getHeight()) / 2 + fm.getAscent();
                 g2.drawString(text, x + 2, y + 2);
 
-                // Main text
                 g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
                 g2.setPaint(gradient);
                 g2.drawString(text, x, y);
@@ -81,19 +75,14 @@ public class SudokuMenuPanel extends JPanel {
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         titleLabel.setPreferredSize(new Dimension(400, 100));
 
-        // Subtitle
         subtitleLabel = new JLabel("Choose the difficulty:");
         subtitleLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
         subtitleLabel.setForeground(TEXT_SECONDARY);
         subtitleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-        // Create styled buttons
         easyButton = createPremiumButton("EASY", EASY_COLOR);
         mediumButton = createPremiumButton("MEDIUM", MEDIUM_COLOR);
         hardButton = createPremiumButton("HARD", HARD_COLOR);
-        continueButton = createPremiumButton("CONTINUE GAME", CONTINUE_COLOR);
-        continueButton.setEnabled(false);   // initially grey/disabled
-        continueButton.setForeground(Color.GRAY);
 
         buttonPanel = new JPanel(new GridBagLayout());
         buttonPanel.setOpaque(false);
@@ -110,13 +99,11 @@ public class SudokuMenuPanel extends JPanel {
                 int w = getWidth();
                 int h = getHeight();
 
-                // Background gradient based on state
                 GradientPaint gradient;
                 if (getModel().isPressed()) {
                     gradient = new GradientPaint(0, 0, accentColor.darker().darker(), 0, h, accentColor.darker());
                 } else if (getModel().isRollover() && isEnabled()) {
                     gradient = new GradientPaint(0, 0, accentColor, 0, h, accentColor.darker());
-                    // Glow effect
                     g2.setColor(new Color(accentColor.getRed(), accentColor.getGreen(), accentColor.getBlue(), 50));
                     g2.fillRoundRect(-2, -2, w + 4, h + 4, 25, 25);
                 } else {
@@ -126,19 +113,16 @@ public class SudokuMenuPanel extends JPanel {
                 g2.setPaint(gradient);
                 g2.fillRoundRect(0, 0, w, h, 20, 20);
 
-                // Border
                 g2.setColor(accentColor);
                 g2.setStroke(new BasicStroke(isEnabled() && getModel().isRollover() ? 2.5f : 1.5f));
                 g2.drawRoundRect(1, 1, w - 3, h - 3, 18, 18);
 
-                // Text
                 g2.setColor(isEnabled() ? TEXT_PRIMARY : Color.GRAY);
                 g2.setFont(new Font("Segoe UI", Font.BOLD, 16));
                 FontMetrics fm = g2.getFontMetrics();
                 int textX = (w - fm.stringWidth(text)) / 2;
                 int textY = (h - fm.getHeight()) / 2 + fm.getAscent();
 
-                // Shadow
                 g2.setColor(new Color(0, 0, 0, 50));
                 g2.drawString(text, textX + 1, textY + 1);
                 g2.setColor(isEnabled() ? TEXT_PRIMARY : Color.GRAY);
@@ -157,17 +141,10 @@ public class SudokuMenuPanel extends JPanel {
         return button;
     }
 
-    // Public method to enable/disable the Continue button from the main frame
-    public void setContinueButtonEnabled(boolean enabled) {
-        continueButton.setEnabled(enabled);
-        continueButton.repaint();
-    }
-
     private void attachButtonActions() {
         easyButton.addActionListener(e -> mainFrame.onDifficultyChosen('E'));
         mediumButton.addActionListener(e -> mainFrame.onDifficultyChosen('M'));
         hardButton.addActionListener(e -> mainFrame.onDifficultyChosen('H'));
-        continueButton.addActionListener(e -> mainFrame.onContinueGame());
     }
 
     private void setupAnimations() {
@@ -194,7 +171,6 @@ public class SudokuMenuPanel extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(20, 50, 10, 50);
 
-        // Title panel
         JPanel titlePanel = new JPanel(new GridBagLayout());
         titlePanel.setOpaque(false);
         GridBagConstraints titleGbc = new GridBagConstraints();
@@ -205,7 +181,6 @@ public class SudokuMenuPanel extends JPanel {
         titlePanel.add(subtitleLabel, titleGbc);
         add(titlePanel, gbc);
 
-        // Button panel
         GridBagConstraints buttonGbc = new GridBagConstraints();
         buttonGbc.gridwidth = GridBagConstraints.REMAINDER;
         buttonGbc.fill = GridBagConstraints.HORIZONTAL;
@@ -213,12 +188,10 @@ public class SudokuMenuPanel extends JPanel {
         buttonPanel.add(easyButton, buttonGbc);
         buttonPanel.add(mediumButton, buttonGbc);
         buttonPanel.add(hardButton, buttonGbc);
-        buttonPanel.add(continueButton, buttonGbc);   // Continue button appears below Hard
 
         gbc.insets = new Insets(20, 80, 40, 80);
         add(buttonPanel, gbc);
 
-        // Decorative pattern panel
         add(createDecorativePanel(), gbc);
     }
 
@@ -259,15 +232,12 @@ public class SudokuMenuPanel extends JPanel {
         int w = getWidth();
         int h = getHeight();
 
-        // Background gradient
         GradientPaint gradient = new GradientPaint(0, 0, BACKGROUND_GRADIENT_TOP, 0, h, BACKGROUND_GRADIENT_BOTTOM);
         g2.setPaint(gradient);
         g2.fillRect(0, 0, w, h);
 
-        // Animated particles
         drawParticles(g2, w, h);
 
-        // Radial glow under mouse
         RadialGradientPaint radial = new RadialGradientPaint(
                 mousePosition.x, mousePosition.y, 300,
                 new float[]{0.0f, 0.8f},
