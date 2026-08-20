@@ -16,6 +16,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class SudokuController implements Viewable {
     private GameState currentGame;
@@ -104,12 +105,6 @@ public class SudokuController implements Viewable {
     }
 
     @Override
-    public GameState getGame(Difficulty level) throws NotFoundException {
-        this.currentGame = new GameState(fileLoader.getgame2dedited());
-        return this.currentGame;
-    }
-
-    @Override
     public void driveGames(GameState source) throws SolutionInvalidException {
         String state = verifyGame(source);
         if (!state.equals("Valid")) {
@@ -119,6 +114,27 @@ public class SudokuController implements Viewable {
             fileLoader.generateSpecificGameCopies(source.getGame());
         } catch (IOException e) {
             throw new SolutionInvalidException("Failed to save game files: " + e.getMessage());
+        }
+    }
+
+    // In SudokuController.java
+    @Override
+    public GameState getGame(Difficulty level) throws NotFoundException {
+        try {
+            int[][] board = fileLoader.loadRandomGame(level);
+            return new GameState(board);
+        } catch (IOException e) {
+            throw new NotFoundException("Failed to load game: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public GameState getIncompleteGame() throws NotFoundException {
+        try {
+            int[][] board = fileLoader.loadIncompleteGame();
+            return new GameState(board);
+        } catch (IOException e) {
+            throw new NotFoundException("Failed to load incomplete game: " + e.getMessage());
         }
     }
 }

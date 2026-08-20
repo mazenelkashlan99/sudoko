@@ -1,11 +1,12 @@
 package MVC;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import Csv.Difficulty;
 import MVC.Verification.GameState;
 import MVC.Exceptions.*;
-interface Viewable{
+public interface Viewable{
 
     Catalog getCatalog();
     // Returns a random game with the specified difficulty
@@ -25,4 +26,5 @@ interface Viewable{
     int[] solveGame(GameState game) throws InvalidGame;
     // Logs the user action
     void logUserAction(String userAction) throws IOException;
+    GameState getIncompleteGame() throws NotFoundException;
 }

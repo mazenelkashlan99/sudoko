@@ -3,9 +3,12 @@ package Csv;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import MVC.Exceptions.NotFoundException;
 import MVC.Verification.GameState;
 
 public class FileCSVConverter {
@@ -186,5 +189,45 @@ public class FileCSVConverter {
         listFilesForFolder("games/hard");
         System.out.println("Contains Files : " + folderContainsGame("games/hard"));
         System.out.println();
+    }
+
+    public int[][] loadRandomGame(Difficulty difficulty) throws IOException, NotFoundException {
+        String folderPath;
+        switch (difficulty) {
+            case EASY:   folderPath = "games/easy/"; break;
+            case MEDIUM: folderPath = "games/medium/"; break;
+            case HARD:   folderPath = "games/hard/"; break;
+            default: throw new NotFoundException("Invalid difficulty");
+        }
+        File folder = new File(folderPath);
+        File[] files = folder.listFiles((dir, name) -> name.endsWith(".csv"));
+        if (files == null || files.length == 0) {
+            throw new NotFoundException("No CSV files in " + folderPath);
+        }
+        Random rand = new Random();
+        File chosen = files[rand.nextInt(files.length)];
+        return loadCSV(chosen.getPath());
+    }
+
+    private int[][] loadCSV(String filePath) throws IOException {
+        List<String> lines = Files.readAllLines(Paths.get(filePath));
+        int[][] board = new int[9][9];
+        for (int i = 0; i < 9; i++) {
+            String[] parts = lines.get(i).split(",");
+            for (int j = 0; j < 9; j++) {
+                board[i][j] = Integer.parseInt(parts[j].trim());
+            }
+        }
+        return board;
+    }
+
+    public int[][] loadIncompleteGame() throws IOException, NotFoundException {
+        File folder = new File("games/incomplete/");
+        File[] files = folder.listFiles((dir, name) -> name.endsWith(".csv"));
+        if (files == null || files.length == 0) {
+            throw new NotFoundException("No incomplete game found");
+        }
+        // There should be exactly one CSV (or take the first)
+        return loadCSV(files[0].getPath());
     }
 }

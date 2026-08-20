@@ -28,9 +28,9 @@ public class GameState {
 
     public void setGame(int[][] newGame){
         this.game = newGame;
-        this.board = new BoardBreakdown(this.game); // rebuild board
+        this.board = new BoardBreakdown(this.game);
         allRoles.clear();
-        allRoles.addAll(this.board.getRows());      // rebuild allRoles
+        allRoles.addAll(this.board.getRows());      
         allRoles.addAll(this.board.getColumns());
         allRoles.addAll(this.board.getBoxes());
     }

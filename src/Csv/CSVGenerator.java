@@ -17,7 +17,7 @@ public class CSVGenerator {
         return sudokuNumbers2d;
     }
 
-    public int[][] generateRandomValidBoard() {
+    public static int[][] generateRandomValidBoard() {
         
         int[][] board = new int[9][9];  // Start empty
         
@@ -27,7 +27,7 @@ public class CSVGenerator {
         return board;
     }
 
-    private boolean isValid(int[][] board, int row, int col, int num) {
+    private static boolean isValid(int[][] board, int row, int col, int num) {
     // Check row
         for (int c = 0; c < 9; c++) {
             if (board[row][c] == num) {
@@ -58,7 +58,7 @@ public class CSVGenerator {
         return true;
     }
 
-    private boolean fillBoard(int[][] board, int row, int col) {
+    private static boolean fillBoard(int[][] board, int row, int col) {
 
         if (col == 9) {
             col = 0;
@@ -88,36 +88,35 @@ public class CSVGenerator {
         return false;  
     }
 
-    public int[][] replaceRandomPairs(int cellsWanted,int [][] board) {
-        int pairsNeeded = (cellsWanted + 1) / 2;
+    public int[][] replaceRandomPairs(int cellsWanted, int[][] board) {
+        // ✅ Make a deep copy so the original is never mutated
+        int[][] boardCopy = new int[9][9];
+        for (int i = 0; i < 9; i++) {
+            boardCopy[i] = Arrays.copyOf(board[i], board[i].length);
+        }
 
+        int pairsNeeded = (cellsWanted + 1) / 2;
         List<int[]> pairs = randomPairs.generateDistinctPairs(pairsNeeded);
         Set<Integer> uniqueCells = new HashSet<>();
-
         for (var pair : pairs) {
             uniqueCells.add(pair[0]);
             uniqueCells.add(pair[1]);
         }
-
         List<Integer> cellsList = new ArrayList<>(uniqueCells);
         Random rand = new Random();
-
         while (cellsList.size() > cellsWanted) {
             cellsList.remove(rand.nextInt(cellsList.size()));
         }
-
         while (cellsList.size() < cellsWanted) {
             int newCell = rand.nextInt(81);
-            if (!cellsList.contains(newCell)) {
-                cellsList.add(newCell);
-            }
+            if (!cellsList.contains(newCell)) cellsList.add(newCell);
         }
 
         for (int cellIndex : cellsList) {
-            board[cellIndex/9][cellIndex%9] = 0;
+            boardCopy[cellIndex / 9][cellIndex % 9] = 0; // ✅ modifies copy, not original
         }
 
         System.out.println("Requested: " + cellsWanted + ", Removed: " + cellsList.size());
-        return board;
+        return boardCopy;
     }
 }
