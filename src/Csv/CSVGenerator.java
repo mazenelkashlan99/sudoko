@@ -116,7 +116,6 @@ public class CSVGenerator {
             boardCopy[cellIndex / 9][cellIndex % 9] = 0; // ✅ modifies copy, not original
         }
 
-        System.out.println("Requested: " + cellsWanted + ", Removed: " + cellsList.size());
         return boardCopy;
     }
 }

@@ -1,5 +1,6 @@
 package MVC;
 
+import Csv.CSVGenerator;
 import Csv.Difficulty;
 import Csv.FileCSVConverter;
 import MVC.Exceptions.InvalidGame;
@@ -16,7 +17,6 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 
 public class SudokuController implements Viewable {
     private GameState currentGame;
@@ -117,15 +117,26 @@ public class SudokuController implements Viewable {
         }
     }
 
-    // In SudokuController.java
     @Override
     public GameState getGame(Difficulty level) throws NotFoundException {
-        try {
-            int[][] board = fileLoader.loadRandomGame(level);
-            return new GameState(board);
-        } catch (IOException e) {
-            throw new NotFoundException("Failed to load game: " + e.getMessage());
+        // Generate a brand new valid Sudoku board
+        int[][] fullBoard = CSVGenerator.generateRandomValidBoard();
+        
+        // Determine how many cells to remove based on difficulty
+        int cellsToRemove;
+        switch (level) {
+            case EASY:   cellsToRemove = 10; break;
+            case MEDIUM: cellsToRemove = 20; break;
+            case HARD:   cellsToRemove = 25; break;
+            default:     cellsToRemove = 10; break;
         }
+        
+        // Use the existing CSVGenerator to remove cells
+        CSVGenerator gen = new CSVGenerator();
+        int[][] boardWithZeros = gen.replaceRandomPairs(cellsToRemove, fullBoard);
+        
+        // Return as GameState (no CSV loading)
+        return new GameState(boardWithZeros);
     }
 
     @Override
